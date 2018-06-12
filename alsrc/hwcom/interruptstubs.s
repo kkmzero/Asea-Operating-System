@@ -64,3 +64,4 @@ _ZN4asea5hwcom16InterruptManager22IgnoreInterruptRequestEv:
 
 .data
 	interruptnumber: .byte 0
+    
