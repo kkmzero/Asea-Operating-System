@@ -147,7 +147,7 @@ BaseAddressRegister PCInterconnectController::GetBaseAddressRegister(uint16_t bu
 Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
 	switch(dev.vendor_id)
 	{
-		case 0x1022: // AMD
+		case 0x1022: //AMD
 			switch(dev.device_id)
 			{
 				case 0x2000: //am79c973 (driver?)
@@ -155,23 +155,112 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			}
 			break;
 
-		case 0x8086: // Intel
+		case 0x8086: //Intel
 			break;
 	}
 
-	//THIS SHOULD BE IN SEPARATE FILE ON DISK CONTAINING DRIVER
+	//Class Codes
 	switch(dev.class_id)
 	{
-		case 0x03: //Graphics, Generic Devices
+		case 0x00: //Unclassified
 			switch(dev.subclass_id)
 			{
-				case 0x00: //VGA
-					//printf("VGA");
+				case 0x00: //Non-VGA Compatible devices
+					break;
+
+				case 0x01: //VGA Compatible Device
+					break;
+			}
+			break;
+
+		case 0x01: //Mass Storage Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //SCSI Bus Controller
+					break;
+
+				case 0x01: //IDE Controller
+					break;
+
+				case 0x02: //Floppy Disk Controller
+					break;
+
+				case 0x03: //IPI Bus Controller
+					break;
+
+				case 0x04: //RAID Controller
+					break;
+
+				case 0x05: //ATA Controller
+					break;
+
+				case 0x06: //Serial ATA
+					break;
+
+				case 0x07: //Serial Attached SCSI
+					break;
+
+				case 0x08: //Non-Volatile Memory Controller
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x02: //Network Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Ethernet Controller
+					break;
+
+				case 0x01: //Token Ring Controller
+					break;
+
+				case 0x02: //FDDI Controller
+					break;
+
+				case 0x03: //ATM Controller
+					break;
+
+				case 0x04: //ISDN Controller
+					break;
+
+				case 0x05: //WorldFip Controller
+					break;
+
+				case 0x06: //PICMG 2.14 Multi Computing
+					break;
+
+				case 0x07: //Infiniband Controller
+					break;
+
+				case 0x08: //Fabric Controller
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x03: //Display Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //VGA Compatible Controller
+					break;
+
+				case 0x01: //XGA Controller
+					break;
+
+				case 0x02: //3D Controller (Not VGA-Compatible)
+					break;
+
+				case 0x80: //Other
 					break;
 			}
 			break;
 	}
-	//END SHOULD BE IN SEPARATE FILE ON DISK CONTAINING DRIVER
+	//END Class Codes
 
 	return 0;
 }
