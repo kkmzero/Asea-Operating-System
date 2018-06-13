@@ -87,7 +87,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 
 			//case 0x0E: handler->OnKeyDown('\b'); break; //BACKSPACE
 
-			//case 0x0F: printf("\b \b"); break; //TAB
+			case 0x0F: printf("    "); break; //TAB
 
 			case 0x10: if(Uppercase) handler->OnKeyDown('Q'); else handler->OnKeyDown('q'); break;
 			case 0x11: if(Uppercase) handler->OnKeyDown('W'); else handler->OnKeyDown('w'); break;
@@ -129,19 +129,51 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x34: if(Uppercase) handler->OnKeyDown('>'); else handler->OnKeyDown('.'); break;
 			case 0x35: if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); break;
 
+			case 0x37: break; //Numpad: *
+			case 0x38: break; //LEFT ALT
 
 			case 0x39: handler->OnKeyDown(' '); break; //SPACE
 
 			//SHIFT
-			case 0x2A: case 0x36: Uppercase = !Uppercase; break; //SHIFT HOLD
-			case 0xAA: case 0xB6: Uppercase = !Uppercase; break; //SHIFT RELEASE
+			case 0x2A: case 0x36: Uppercase = !Uppercase; break; //LEFT || RIGHT SHIFT HOLD
+			case 0xAA: case 0xB6: Uppercase = !Uppercase; break; //LEFT || RIGHT RELEASE
 			//END SHIFT
 
 			case 0x3A: Uppercase = !Uppercase; //CAPSLOCK
 
+			case 0x3B: break; //F1
+			case 0x3C: break; //F2
+			case 0x3D: break; //F3
+			case 0x3E: break; //F4
+			case 0x3F: break; //F5
+			case 0x40: break; //F6
+			case 0x41: break; //F7
+			case 0x42: break; //F8
+			case 0x43: break; //F9
+			case 0x44: break; //F10
+			case 0x57: break; //F11
+			case 0x58: break; //F12
+            
+			case 0x45: break; //NumLock
+			case 0x46: break; //ScrollLock
+            
+			case 0x47: break; //Numpad: 7
+			case 0x48: break; //Numpad: 8
+			case 0x49: break; //Numpad: 9
+			case 0x4A: break; //Numpad: -
+			case 0x4B: break; //Numpad: 4
+			case 0x4C: break; //Numpad: 5
+			case 0x4D: break; //Numpad: 6
+			case 0x4E: break; //Numpad: +
+			case 0x4F: break; //Numpad: 1
+			case 0x50: break; //Numpad: 2
+			case 0x51: break; //Numpad: 3
+			case 0x52: break; //Numpad: 0
+			case 0x53: break; //Numpad: .
+
 			//---END KEYMAPPING---
 
-			case 0x45: case 0xC5: break;
+            case 0xC5: break;
 
 
 		default:
