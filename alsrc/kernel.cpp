@@ -30,11 +30,10 @@ using namespace asea::drivers;
 using namespace asea::hwcom;
 
 void printf(char* str) {
-  static uint16_t* VideoMemory = (uint16_t*)0xb8000;
+	static uint16_t* VideoMemory = (uint16_t*)0xb8000;
+	static uint8_t x =0, y=0;
 
-  static uint8_t x =0, y=0;
-
-  for(int i = 0; str[i] != '\0'; ++i)
+	for(int i = 0; str[i] != '\0'; ++i)
 	{
 		switch(str[i])
 		{
@@ -132,7 +131,7 @@ extern "C" void callConstructors() {
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
 	printf("Copyright (c) 2018, Asea OS. All Rights Reserved.\n");
-	printf("AL0.1.6 (build dev100618)\n\n");
+	printf("AL 0.1.7 (build dev150618)\n\n");
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
@@ -140,13 +139,13 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	printf("Initializing...\n"); //statusmsg
 	DriverManager drvManager;
 
-		PrintfKeyboardEventHandler kbhandler;
-		KeyboardDriver keyboard(&interrupts, &kbhandler);
-			drvManager.AddDriver(&keyboard);
+	PrintfKeyboardEventHandler kbhandler;
+	KeyboardDriver keyboard(&interrupts, &kbhandler);
+	drvManager.AddDriver(&keyboard);
 
-		MouseToConsole mousehandler;
-		MouseDriver mouse(&interrupts, &mousehandler);
-			drvManager.AddDriver(&mouse);
+	MouseToConsole mousehandler;
+	MouseDriver mouse(&interrupts, &mousehandler);
+	drvManager.AddDriver(&mouse);
 
 	PCInterconnectController PCIController;
 	PCIController.SelectDrivers(&drvManager, &interrupts);
