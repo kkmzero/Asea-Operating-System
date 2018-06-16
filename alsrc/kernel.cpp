@@ -131,7 +131,7 @@ extern "C" void callConstructors() {
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
 	printf("Copyright (c) 2018, Asea OS. All Rights Reserved.\n");
-	printf("AL 0.1.7 (build dev150618)\n\n");
+	printf("AL 0.1.8 (build dev160618)\n\n");
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
