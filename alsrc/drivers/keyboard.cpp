@@ -70,7 +70,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0xFA: break;
 
 			//---KEYMAPPING---
-			//case 0x01: if(Uppercase) printf("A"); else printf("a"); break; //ESCAPE
+			case 0x01: break; //ESCAPE
 
 			case 0x02: if(Uppercase) handler->OnKeyDown('!'); else handler->OnKeyDown('1'); break;
 			case 0x03: if(Uppercase) handler->OnKeyDown('@'); else handler->OnKeyDown('2'); break;
@@ -85,7 +85,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x0C: if(Uppercase) handler->OnKeyDown('_'); else handler->OnKeyDown('-'); break;
 			case 0x0D: if(Uppercase) handler->OnKeyDown('+'); else handler->OnKeyDown('='); break;
 
-			//case 0x0E: handler->OnKeyDown('\b'); break; //BACKSPACE
+			case 0x0E: break; //BACKSPACE
 
 			case 0x0F: printf("    "); break; //TAB
 
@@ -103,7 +103,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x1B: if(Uppercase) handler->OnKeyDown('}'); else handler->OnKeyDown(']'); break;
 			case 0x1C: handler->OnKeyDown('\n'); break; //ENTER
 
-			//case 0x1D: printf("\n"); break; //LEFT CONTROL
+			case 0x1D: break; //LEFT CONTROL
 
 			case 0x1E: if(Uppercase) handler->OnKeyDown('A'); else handler->OnKeyDown('a'); break;
 			case 0x1F: if(Uppercase) handler->OnKeyDown('S'); else handler->OnKeyDown('s'); break;
@@ -135,11 +135,13 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x39: handler->OnKeyDown(' '); break; //SPACE
 
 			//SHIFT
-			case 0x2A: case 0x36: Uppercase = !Uppercase; break; //LEFT || RIGHT SHIFT HOLD
-			case 0xAA: case 0xB6: Uppercase = !Uppercase; break; //LEFT || RIGHT RELEASE
+			case 0x2A: Uppercase = !Uppercase; break; //LEFT SHIFT PRESSED
+			case 0x36: Uppercase = !Uppercase; break; //RIGHT SHIFT PRESSED
+			case 0xAA: Uppercase = !Uppercase; break; //LEFT SHIFT RELEASED
+			case 0xB6: Uppercase = !Uppercase; break; //RIGHT SHIFT RELEASED
 			//END SHIFT
 
-			case 0x3A: Uppercase = !Uppercase; //CAPSLOCK
+			case 0x3A: Uppercase = !Uppercase; break; //CAPSLOCK
 
 			case 0x3B: break; //F1
 			case 0x3C: break; //F2
@@ -170,11 +172,13 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x51: break; //Numpad: 3
 			case 0x52: break; //Numpad: 0
 			case 0x53: break; //Numpad: .
+			
+			//TODO CIV
+			case 0x56: if(Uppercase) handler->OnKeyDown('|'); else handler->OnKeyDown('\\'); break;
+			case 0x5B: break; //Win? Key
+			case 0x5D: break; //Print Page? Key
 
 			//---END KEYMAPPING---
-
-            case 0xC5: break;
-
 
 		default:
 		if(key < 0x80)
