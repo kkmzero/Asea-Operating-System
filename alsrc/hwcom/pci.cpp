@@ -147,7 +147,7 @@ BaseAddressRegister PCInterconnectController::GetBaseAddressRegister(uint16_t bu
 Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
 	switch(dev.vendor_id)
 	{
-		case 0x1022: //AMD
+		case 0x1022: //Advanced Micro Devices (AMD)
 			switch(dev.device_id)
 			{
 				case 0x2000: //am79c973 (driver?)
@@ -253,6 +253,107 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 					break;
 
 				case 0x02: //3D Controller (Not VGA-Compatible)
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x04: //Multimedia Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Multimedia Video Controller
+					break;
+
+				case 0x01: //Multimedia Audio Controller
+					break;
+
+				case 0x02: //Computer Telephony Device
+					break;
+
+				case 0x03: //Audio Device
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x05: //Memory Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //RAM Controller
+					break;
+
+				case 0x01: //Flash Controller
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x06: //Bridge Device
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Host Bridge
+					break;
+
+				case 0x01: //ISA Bridge
+					break;
+
+				case 0x02: //EISA Bridge
+					break;
+
+				case 0x03: //MCA Bridge
+					break;
+
+				case 0x04: //PCI-to-PCI Bridge
+					break;
+
+				case 0x05: //PCMCIA Bridge
+					break;
+
+				case 0x06: //NuBus Bridge
+					break;
+
+				case 0x07: //CardBus Bridge
+					break;
+
+				case 0x08: //RACEway Bridge
+					break;
+
+				case 0x09: //PCI-to-PCI Bridge
+					break;
+
+				case 0x0A: //InfiniBand-to-PCI Host Bridge
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+			
+		case 0x07: //Simple Communication Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Serial Controller
+					break;
+
+				case 0x01: //Parallel Controller
+					break;
+
+				case 0x02: //Multiport Serial Controller
+					break;
+
+				case 0x03: //Modem
+					break;
+
+				case 0x04: //IEEE 488.1/2 (GPIB) Controller
+					break;
+
+				case 0x05: //Smart Card
 					break;
 
 				case 0x80: //Other
