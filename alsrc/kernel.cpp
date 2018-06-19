@@ -23,11 +23,13 @@
 #include <drivers/driver.h>
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
+#include <System/headers/sysnfo.h>
 
 using namespace asea;
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
+using namespace asea::System::headers;
 
 void printf(char* str) {
 	static uint16_t* VideoMemory = (uint16_t*)0xb8000;
@@ -130,8 +132,8 @@ extern "C" void callConstructors() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
-	printf("Copyright (c) 2018, Asea OS. All Rights Reserved.\n");
-	printf("AL 0.1.8 (build dev160618)\n\n");
+	AseaSystemInfo sysInfo;
+	sysInfo.AS_PrintSysInfoMsg(0x000);
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
