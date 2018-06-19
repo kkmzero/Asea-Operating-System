@@ -334,7 +334,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 					break;
 			}
 			break;
-			
+
 		case 0x07: //Simple Communication Controller
 			switch(dev.subclass_id)
 			{
@@ -354,6 +354,69 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 					break;
 
 				case 0x05: //Smart Card
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x08: //Base System Peripheral
+			switch(dev.subclass_id)
+			{
+				case 0x00: //PIC
+					break;
+
+				case 0x01: //DMA Controller
+					break;
+
+				case 0x02: //Timer
+					break;
+
+				case 0x03: //RTC Controller
+					break;
+
+				case 0x04: //PCI Hot-Plug Controller
+					break;
+
+				case 0x05: //SD Host controller
+					break;
+
+				case 0x06: //IOMMU
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x09: //Input Device Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Keyboard Controller
+					break;
+
+				case 0x01: //Digitizer Pen
+					break;
+
+				case 0x02: //Mouse Controller
+					break;
+
+				case 0x03: //Scanner Controller
+					break;
+
+				case 0x04: //Gameport Controller
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x0A: //Docking Station
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Generic
 					break;
 
 				case 0x80: //Other
