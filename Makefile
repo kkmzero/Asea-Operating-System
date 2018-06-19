@@ -13,6 +13,7 @@ objects = obj/loader.o \
 	  obj/hwcom/pci.o \
 	  obj/drivers/keyboard.o \
 	  obj/drivers/mouse.o \
+	  obj/System/sysnfo.o \
 	  obj/kernel.o
 
 obj/%.o: alsrc/%.cpp
