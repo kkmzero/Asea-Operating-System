@@ -19,8 +19,18 @@
 #ifndef __ASEA__SYSTEM__HEADERS__VERDEF_H
 #define __ASEA__SYSTEM__HEADERS__VERDEF_H
 
-#define ASD_AL_VERSION "0.1.9"
-#define ASD_AL_BUILDVR "(build dev180619)"
-#define ASD_AS_VERSION "0.1"
+namespace asea
+{
+	namespace System
+	{
+		namespace headers
+		{
+			#define ASD_AL_VERSION "0.1.9"
+			#define ASD_AL_BUILDVR "(build dev180619)"
+			#define ASD_AS_VERSION "0.1"
+
+		}
+	}
+}
 
 #endif
