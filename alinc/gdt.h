@@ -25,21 +25,21 @@ namespace asea
 {
 	class GlobalDescriptorTable
 	{
+	public:
+		class SegmentDescriptor
+		{
+		private:
+			asea::common::uint16_t limit_lo;
+			asea::common::uint16_t base_lo;
+			asea::common::uint8_t base_hi;
+			asea::common::uint8_t type;
+			asea::common::uint8_t flags_limit_hi;
+			asea::common::uint8_t base_vhi;
 		public:
-			class SegmentDescriptor
-			{
-				private:
-					asea::common::uint16_t limit_lo;
-					asea::common::uint16_t base_lo;
-					asea::common::uint8_t base_hi;
-					asea::common::uint8_t type;
-					asea::common::uint8_t flags_limit_hi;
-					asea::common::uint8_t base_vhi;
-				public:
-					SegmentDescriptor(asea::common::uint32_t base, asea::common::uint32_t limits, asea::common::uint8_t type);
-					asea::common::uint32_t Base();
-					asea::common::uint32_t Limit();
-			} __attribute__((packed));
+			SegmentDescriptor(asea::common::uint32_t base, asea::common::uint32_t limits, asea::common::uint8_t type);
+			asea::common::uint32_t Base();
+			asea::common::uint32_t Limit();
+		} __attribute__((packed));
 
 		SegmentDescriptor nullSegmentSelector;
 		SegmentDescriptor unusedSegmentSelector;
