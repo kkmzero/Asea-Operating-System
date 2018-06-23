@@ -379,7 +379,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 				case 0x04: //PCI Hot-Plug Controller
 					break;
 
-				case 0x05: //SD Host controller
+				case 0x05: //SD Host Controller
 					break;
 
 				case 0x06: //IOMMU
@@ -423,6 +423,105 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 					break;
 			}
 			break;
+
+		case 0x0B: //Processor
+			switch(dev.subclass_id)
+			{
+				case 0x00: //386
+					break;
+
+				case 0x01: //486
+					break;
+
+				case 0x02: //Pentium
+					break;
+
+				case 0x10: //Alpha
+					break;
+
+				case 0x20: //PowerPC
+					break;
+
+				case 0x30: //MIPS
+					break;
+
+				case 0x40: //Co-Processor
+					break;
+			}
+			break;
+
+		case 0x0C: //Serial Bus Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //FireWire (IEEE 1394) Controller
+					break;
+
+				case 0x01: //ACCESS Bus
+					break;
+
+				case 0x02: //SSA
+					break;
+
+				case 0x03: //USB Controller
+					break;
+
+				case 0x04: //Fibre Channel
+					break;
+
+				case 0x05: //SMBus
+					break;
+
+				case 0x06: //InfiniBand
+					break;
+
+				case 0x07: //IPMI Interface
+					break;
+
+				case 0x08: //SERCOS Interface (IEC 61491)
+					break;
+
+				case 0x09: //CANbus
+					break;
+			}
+			break;
+
+		case 0x0D: //Wireless Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //iRDA Compatible Controller
+					break;
+
+				case 0x01: //Consumer IR Controller
+					break;
+
+				case 0x10: //RF Controller
+					break;
+
+				case 0x11: //Bluetooth Controller
+					break;
+
+				case 0x12: //Broadband Controller
+					break;
+
+				case 0x20: //Ethernet Controller (802.1a)
+					break;
+
+				case 0x21: //Ethernet Controller (802.1b)
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x0E: //Intelligent Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //I20
+					break;
+			}
+			break;
+
 	}
 	//END Class Codes
 
