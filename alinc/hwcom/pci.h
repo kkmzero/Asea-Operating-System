@@ -36,34 +36,34 @@ namespace asea
 
 		class BaseAddressRegister
 		{
-			public:
-				bool prefetchable;
-				asea::common::uint8_t* address;
-				asea::common::uint32_t size;
-				BaseAddressRegisterType type;
+		public:
+			bool prefetchable;
+			asea::common::uint8_t* address;
+			asea::common::uint32_t size;
+			BaseAddressRegisterType type;
 		};
 
 		class PCInterconnectDeviceDescriptor
 		{
-			public:
-				asea::common::uint32_t portBase;
-				asea::common::uint32_t interrupt;		
+		public:
+			asea::common::uint32_t portBase;
+			asea::common::uint32_t interrupt;
 
-				asea::common::uint16_t bus;
-				asea::common::uint16_t device;
-				asea::common::uint16_t function;
+			asea::common::uint16_t bus;
+			asea::common::uint16_t device;
+			asea::common::uint16_t function;
 
-				asea::common::uint16_t vendor_id;
-				asea::common::uint16_t device_id;
+			asea::common::uint16_t vendor_id;
+			asea::common::uint16_t device_id;
 
-				asea::common::uint8_t class_id;
-				asea::common::uint8_t subclass_id;
-				asea::common::uint8_t interface_id;
+			asea::common::uint8_t class_id;
+			asea::common::uint8_t subclass_id;
+			asea::common::uint8_t interface_id;
 
-				asea::common::uint8_t revision;	
+			asea::common::uint8_t revision;
 
-				PCInterconnectDeviceDescriptor();
-				~PCInterconnectDeviceDescriptor();
+			PCInterconnectDeviceDescriptor();
+			~PCInterconnectDeviceDescriptor();
 		};
 
 		class PCInterconnectController
@@ -71,36 +71,36 @@ namespace asea
 			Port32Bit dataPort;
 			Port32Bit commandPort;
 
-			public:
-				PCInterconnectController();
-				~PCInterconnectController();
+		public:
+			PCInterconnectController();
+			~PCInterconnectController();
 
-				asea::common::uint32_t Read(asea::common::uint16_t bus, 
-					asea::common::uint16_t device, 
-					asea::common::uint16_t function, 
-					asea::common::uint32_t registeroffset);
+			asea::common::uint32_t Read(asea::common::uint16_t bus, 
+				asea::common::uint16_t device, 
+				asea::common::uint16_t function, 
+				asea::common::uint32_t registeroffset);
 
-				void Write(asea::common::uint16_t bus, 
-					asea::common::uint16_t device, 
-					asea::common::uint16_t function, 
-					asea::common::uint32_t registeroffset,
-					asea::common::uint32_t value);
+			void Write(asea::common::uint16_t bus, 
+				asea::common::uint16_t device, 
+				asea::common::uint16_t function, 
+				asea::common::uint32_t registeroffset,
+				asea::common::uint32_t value);
 
-				bool DeviceHasFunctions(asea::common::uint16_t bus, 
-					asea::common::uint16_t device);
+			bool DeviceHasFunctions(asea::common::uint16_t bus, 
+				asea::common::uint16_t device);
 
-				void SelectDrivers(asea::drivers::DriverManager* driverManager, asea::hwcom::InterruptManager* interrupts);
+			void SelectDrivers(asea::drivers::DriverManager* driverManager, asea::hwcom::InterruptManager* interrupts);
 
-				asea::drivers::Driver* GetDriver(PCInterconnectDeviceDescriptor dev, asea::hwcom::InterruptManager* interrupts);
+			asea::drivers::Driver* GetDriver(PCInterconnectDeviceDescriptor dev, asea::hwcom::InterruptManager* interrupts);
 
-				PCInterconnectDeviceDescriptor GetDeviceDescriptor(asea::common::uint16_t bus, 
-					asea::common::uint16_t device, 
-					asea::common::uint16_t function);
+			PCInterconnectDeviceDescriptor GetDeviceDescriptor(asea::common::uint16_t bus, 
+				asea::common::uint16_t device, 
+				asea::common::uint16_t function);
 
-				BaseAddressRegister GetBaseAddressRegister(asea::common::uint16_t bus, 
-					asea::common::uint16_t device, 
-					asea::common::uint16_t function,
-					asea::common::uint16_t bar);
+			BaseAddressRegister GetBaseAddressRegister(asea::common::uint16_t bus, 
+				asea::common::uint16_t device, 
+				asea::common::uint16_t function,
+				asea::common::uint16_t bar);
 		};
 
 	}
