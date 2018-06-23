@@ -31,71 +31,71 @@ namespace asea
 
 		class InterruptHandler
 		{
-			protected:
-				asea::common::uint8_t interruptNumber;
-				InterruptManager* interruptManager;
+		protected:
+			asea::common::uint8_t interruptNumber;
+			InterruptManager* interruptManager;
 
-				InterruptHandler(asea::common::uint8_t interruptNumber, InterruptManager* interruptManager);
-				~InterruptHandler();
+			InterruptHandler(asea::common::uint8_t interruptNumber, InterruptManager* interruptManager);
+			~InterruptHandler();
 
-			public:
-				virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
+		public:
+			virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
 		};
 
 		class InterruptManager
 		{
 			friend class InterruptHandler;
 
-			protected:
-				static InterruptManager* ActiveInterruptManager;
+		protected:
+			static InterruptManager* ActiveInterruptManager;
 
-				InterruptHandler* handlers[256];
+			InterruptHandler* handlers[256];
 
-				struct GateDescriptor
-				{
-					asea::common::uint16_t handlerAddressLowBits;
-					asea::common::uint16_t gdt_codeSegmentSelector;
-					asea::common::uint8_t reserved;
-					asea::common::uint8_t access;
-					asea::common::uint16_t handlerAddressHighBits;
-				} __attribute__((packed));
+			struct GateDescriptor
+			{
+				asea::common::uint16_t handlerAddressLowBits;
+				asea::common::uint16_t gdt_codeSegmentSelector;
+				asea::common::uint8_t reserved;
+				asea::common::uint8_t access;
+				asea::common::uint16_t handlerAddressHighBits;
+			} __attribute__((packed));
 
-				static GateDescriptor interruptDescriptorTable[256];
+			static GateDescriptor interruptDescriptorTable[256];
 
-				struct InterruptDescriptorTablePointer
-				{
-					asea::common::uint16_t size;
-					asea::common::uint32_t base;
-				} __attribute__((packed));
+			struct InterruptDescriptorTablePointer
+			{
+				asea::common::uint16_t size;
+				asea::common::uint32_t base;
+			} __attribute__((packed));
 
-				static void SetInterruptDescriptorTableEntry(
-					asea::common::uint8_t interruptNumber,
-					asea::common::uint16_t codeSegmentSelectorOffset,
-					void (*handler)(),
-					asea::common::uint8_t DescriptorPrivilegeLevel,
-					asea::common::uint8_t DescriptorType
-				);
+			static void SetInterruptDescriptorTableEntry(
+				asea::common::uint8_t interruptNumber,
+				asea::common::uint16_t codeSegmentSelectorOffset,
+				void (*handler)(),
+				asea::common::uint8_t DescriptorPrivilegeLevel,
+				asea::common::uint8_t DescriptorType
+			);
 
-				Port8BitSlow picMasterCommand;
-				Port8BitSlow picMasterData;
-				Port8BitSlow picSlaveCommand;
-				Port8BitSlow picSlaveData;
+			Port8BitSlow picMasterCommand;
+			Port8BitSlow picMasterData;
+			Port8BitSlow picSlaveCommand;
+			Port8BitSlow picSlaveData;
 
-			public:
-				InterruptManager(asea::GlobalDescriptorTable* gdt);
-				~InterruptManager();
+		public:
+			InterruptManager(asea::GlobalDescriptorTable* gdt);
+			~InterruptManager();
 
-				void Activate();
-				void Deactivate();
+			void Activate();
+			void Deactivate();
 
-				static asea::common::uint32_t handleInterrupt(asea::common::uint8_t interruptNumber, asea::common::uint32_t esp);
+			static asea::common::uint32_t handleInterrupt(asea::common::uint8_t interruptNumber, asea::common::uint32_t esp);
 
-				asea::common::uint32_t DoHandleInterrupt(asea::common::uint8_t interruptNumber, asea::common::uint32_t esp);
+			asea::common::uint32_t DoHandleInterrupt(asea::common::uint8_t interruptNumber, asea::common::uint32_t esp);
 
-				static void IgnoreInterruptRequest();
-				static void HandleInterruptRequest0x00();
-				static void HandleInterruptRequest0x01();
-				static void HandleInterruptRequest0x0C();
+			static void IgnoreInterruptRequest();
+			static void HandleInterruptRequest0x00();
+			static void HandleInterruptRequest0x01();
+			static void HandleInterruptRequest0x0C();
 		};
 
 	}
