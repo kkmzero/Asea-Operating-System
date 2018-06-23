@@ -30,13 +30,13 @@ namespace asea
 	{
 		class MouseEventHandler
 		{
-			public:
-				MouseEventHandler();
+		public:
+			MouseEventHandler();
 
-				virtual void OnActivate();
-				virtual void OnMouseDown(asea::common::uint8_t button);
-				virtual void OnMouseUp(asea::common::uint8_t button);
-				virtual void OnMouseMove(int x, int y);
+			virtual void OnActivate();
+			virtual void OnMouseDown(asea::common::uint8_t button);
+			virtual void OnMouseUp(asea::common::uint8_t button);
+			virtual void OnMouseMove(int x, int y);
 		};
 
 		class MouseDriver : public asea::hwcom::InterruptHandler, public Driver
@@ -50,11 +50,11 @@ namespace asea
 
 			MouseEventHandler* handler;
 
-			public:
-				MouseDriver(asea::hwcom::InterruptManager * manager, MouseEventHandler* handler);
-				~MouseDriver();
-				virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
-				virtual void Activate();
+		public:
+			MouseDriver(asea::hwcom::InterruptManager * manager, MouseEventHandler* handler);
+			~MouseDriver();
+			virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
+			virtual void Activate();
 		};
 
 	}
