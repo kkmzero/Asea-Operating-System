@@ -24,6 +24,7 @@
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
 #include <System/headers/sysnfo.h>
+#include <System/headers/sysmsgs.h>
 
 using namespace asea;
 using namespace asea::common;
@@ -133,12 +134,14 @@ extern "C" void callConstructors() {
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
 	AseaSystemInfo sysInfo;
+	AseaSystemMessages sysMsgs;
+
 	sysInfo.AS_PrintSysInfoMsg(0x000);
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
 
-	printf("Initializing...\n"); //statusmsg
+	sysMsgs.AS_StatusMsgInf(0x00);
 	DriverManager drvManager;
 
 	PrintfKeyboardEventHandler kbhandler;
@@ -153,10 +156,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	PCIController.SelectDrivers(&drvManager, &interrupts);
 
 	drvManager.ActivateAll();
-	printf("[OK] Hardware Initialization\n"); //statusmsg
+	sysMsgs.AS_StatusMsg(0x00, "Hardware Initialization\n");
 
 	interrupts.Activate();
-	printf("[OK] Hardware Interrupts\n\n"); //statusmsg
+	sysMsgs.AS_StatusMsg(0x00, "Hardware Interrupts\n\n");
 
 	while(1);
 }
