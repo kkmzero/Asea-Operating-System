@@ -522,6 +522,74 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			}
 			break;
 
+		case 0x0F: //Satellite Communication Controller
+			switch(dev.subclass_id)
+			{
+				case 0x01: //Satellite TV Controller
+					break;
+
+				case 0x02: //Satellite Audio Controller
+					break;
+
+				case 0x03: //Satellite Voice Controller
+					break;
+
+				case 0x04: //Satellite Data Controller
+					break;
+			}
+			break;
+
+		case 0x10: //Encryption Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //Network and Computing Encrpytion/Decryption
+					break;
+
+				case 0x10: //Entertainment Encryption/Decryption
+					break;
+
+				case 0x80: //Other Encryption/Decryption
+					break;
+			}
+			break;
+
+		case 0x11: //Signal Processing Controller
+			switch(dev.subclass_id)
+			{
+				case 0x00: //DPIO Modules
+					break;
+
+				case 0x01: //Performance Counters
+					break;
+
+				case 0x10: //Communication Synchronizer
+					break;
+
+				case 0x20: //Signal Processing Management
+					break;
+
+				case 0x80: //Other
+					break;
+			}
+			break;
+
+		case 0x12: //Processing Accelerator
+			break;
+
+		case 0x13: //Non-Essential Instrumentation
+			break;
+
+		case 0x14: //0x3F (Reserved)
+			break;
+
+		case 0x40: //Co-Processor
+			break;
+
+		case 0x41: //0xFE (Reserved)
+			break;
+
+		case 0xFF: //Unassigned Class (Vendor specific)
+			break;
 	}
 	//END Class Codes
 
