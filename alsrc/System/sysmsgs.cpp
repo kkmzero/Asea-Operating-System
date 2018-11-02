@@ -32,22 +32,31 @@ void printf(char* str);
 void AseaSystemMessages::AS_StatusMsg(uint8_t statusmsg_ID, char* description) {
 	switch(statusmsg_ID) {
 		case 0x00:
-			printf("[OK] ");
 			printf(description);
 			break;
 
 		case 0x01:
-			printf("[FAILED] ");
+			printf("[OK] ");
 			printf(description);
 			break;
 
 		case 0x02:
-			printf("[ABORT] ");
+			printf("[FAILED] ");
 			printf(description);
 			break;
 
 		case 0x03:
+			printf("[ABORT] ");
+			printf(description);
+			break;
+
+		case 0x04:
 			printf("[WARNING] ");
+			printf(description);
+			break;
+
+		case 0x05:
+			printf("[ERROR] ");
 			printf(description);
 			break;
 	}
@@ -58,6 +67,9 @@ void AseaSystemMessages::AS_StatusMsg(uint8_t statusmsg_ID, char* description) {
 void AseaSystemMessages::AS_StatusMsgInf(uint8_t statusmsginf_ID) {
 	switch(statusmsginf_ID) {
 		case 0x00:
+			break;
+
+		case 0x01:
 			printf("Initializing...\n");
 			break;
 	}
