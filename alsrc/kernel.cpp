@@ -136,12 +136,12 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	AseaSystemInfo sysInfo;
 	AseaSystemMessages sysMsgs;
 
-	sysInfo.AS_PrintSysInfoMsg(0x000);
+	sysInfo.AS_PrintSysInfoMsg(0x001);
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
 
-	sysMsgs.AS_StatusMsgInf(0x00);
+	sysMsgs.AS_StatusMsgInf(0x01);
 	DriverManager drvManager;
 
 	PrintfKeyboardEventHandler kbhandler;
@@ -156,10 +156,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	PCIController.SelectDrivers(&drvManager, &interrupts);
 
 	drvManager.ActivateAll();
-	sysMsgs.AS_StatusMsg(0x00, "Hardware Initialization\n");
+	sysMsgs.AS_StatusMsg(0x01, "Hardware Initialization\n");
 
 	interrupts.Activate();
-	sysMsgs.AS_StatusMsg(0x00, "Hardware Interrupts\n\n");
+	sysMsgs.AS_StatusMsg(0x01, "Hardware Interrupts\n\n");
 
 	while(1);
 }
