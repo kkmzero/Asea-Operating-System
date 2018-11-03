@@ -22,6 +22,8 @@ using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
 
+static bool Uppercase = false;
+
 KeyboardEventHandler::KeyboardEventHandler() {
 }
 
@@ -60,8 +62,6 @@ void KeyboardDriver::Activate() {
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 	uint8_t key = dataport.Read();
 
-	static bool Uppercase = false;
-
 	if(handler == 0)
 		return esp;
 
@@ -85,7 +85,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x0C: if(Uppercase) handler->OnKeyDown('_'); else handler->OnKeyDown('-'); break;
 			case 0x0D: if(Uppercase) handler->OnKeyDown('+'); else handler->OnKeyDown('='); break;
 
-			case 0x0E: break; //BACKSPACE pressed
+			case 0x0E: handler->OnKeyDown('\b'); break; //BACKSPACE pressed
 
 			case 0x0F: printf("    "); break; //TAB pressed
 
