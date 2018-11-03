@@ -125,7 +125,7 @@
 - - - - - - - - > 0x05 - Smart Card
 - - - - - - - - > 0x80 - Other
 
-- ESC, Left CRTL, Backspace keys mapped + few miscellaneous(keyboard.cpp)
+- ESC, Left CTRL, Backspace keys mapped + few miscellaneous (keyboard.cpp)
 - L/R Shift reworked (keyboard.cpp)
 
 [v0.1.7 - dev150618]
