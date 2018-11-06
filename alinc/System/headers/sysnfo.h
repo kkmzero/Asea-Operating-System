@@ -27,13 +27,18 @@ namespace asea
 	{
 		namespace headers
 		{
+			enum SYSINFO_MSG_ID : asea::common::uint16_t {
+				SYSINFOMSG_NONE = 0x000,
+				SYSINFOMSG_COPYRIGHTVR = 0x001
+			};
+
 			class AseaSystemInfo
 			{
 			public:
 				AseaSystemInfo();
 				~AseaSystemInfo();
 				
-				void AS_PrintSysInfoMsg(asea::common::uint16_t sysinfomsg_ID);
+				void AS_PrintSysInfoMsg(SYSINFO_MSG_ID sysinfomsg_id);
 			};
 
 		}
