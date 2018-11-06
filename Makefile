@@ -37,7 +37,7 @@ objects = obj/loader.o \
 
 obj/%.o: alsrc/%.cpp
 	mkdir -p $(@D)
-	gcc $(GCCPARAMS) -o $@ -c $<
+	g++ $(GCCPARAMS) -o $@ -c $<
 
 obj/%.o: alsrc/%.s
 	mkdir -p $(@D)
