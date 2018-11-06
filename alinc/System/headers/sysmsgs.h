@@ -27,14 +27,28 @@ namespace asea
 	{
 		namespace headers
 		{
+			enum STATUS_MSG_ID : asea::common::uint8_t {
+				STATUSMSG_NONE = 0x00,
+				STATUSMSG_OK = 0x01,
+				STATUSMSG_FAILED = 0x02,
+				STATUSMSG_ABORT = 0x03,
+				STATUSMSG_WARNING = 0x04,
+				STATUSMSG_ERROR = 0x05
+			};
+
+			enum STATUS_MSG_INF_ID : asea::common::uint8_t {
+				STATUSMSG_INF_NONE = 0x00,
+				STATUSMSG_INF_INITIALIZING = 0x01
+			};
+
 			class AseaSystemMessages
 			{
 			public:
 				AseaSystemMessages();
 				~AseaSystemMessages();
 				
-				void AS_StatusMsg(asea::common::uint8_t statusmsg_ID, char* description);
-				void AS_StatusMsgInf(asea::common::uint8_t statusmsginf_ID);
+				void AS_StatusMsg(STATUS_MSG_ID statusmsg_id, char* description);
+				void AS_StatusMsgInf(STATUS_MSG_INF_ID statumsginf_id);
 			};
 
 		}
