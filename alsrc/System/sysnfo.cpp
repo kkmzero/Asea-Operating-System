@@ -30,18 +30,18 @@ AseaSystemInfo::~AseaSystemInfo() {
 
 void printf(char* str);
 
-void AseaSystemInfo::AS_PrintSysInfoMsg(uint16_t sysinfomsg_ID) {
-	switch(sysinfomsg_ID) {
-		case 0x000:
+void AseaSystemInfo::AS_PrintSysInfoMsg(SYSINFO_MSG_ID sysinfomsg_id) {
+	switch(sysinfomsg_id) {
+		case SYSINFOMSG_NONE:
 			break;
 
-		case 0x001:
+		case SYSINFOMSG_COPYRIGHTVR:
 			printf("Copyright (c) 2018, Asea OS. All Rights Reserved.\n");
 			printf("AL " ASD_AL_VERSION " " ASD_AL_BUILDVR "\n\n");
 			break;
 
 		default:
-			printf("[!] Undefined sysinfomsg_ID\n");
+			printf("[!] Undefined sysinfomsg_id\n");
 			break;
 	}
 	
