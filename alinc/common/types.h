@@ -35,6 +35,9 @@ namespace asea
 		typedef const char*              string;
 		typedef uint32_t                 size_t;
 
+		#ifndef NULL
+		#define NULL 0L
+		#endif
 	}
 }
     
