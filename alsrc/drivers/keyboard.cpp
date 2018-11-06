@@ -17,10 +17,12 @@
  */
 
 #include <drivers/keyboard.h>
+#include <System/headers/asyslib.h>
 
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
+using namespace asea::System::headers::asl;
 
 static bool Uppercase = false;
 
@@ -45,7 +47,6 @@ KeyboardDriver::~KeyboardDriver() {
 }
 
 void printf(char*);
-void printfHex(uint8_t);
 
 void KeyboardDriver::Activate() {
 	while(commandport.Read() & 0x1)
@@ -173,6 +174,13 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 			case 0x52: break; //Numpad: 0 pressed
 			case 0x53: break; //Numpad: . pressed
 
+			case 0x5B: break; //Left Mod (Win) key pressed
+			case 0xDB: break; //Left Mod (Win) key released
+			case 0x5C: break; //Right Mod (Win) key pressed
+			case 0xDC: break; //Right Mod (Win) key released
+			case 0x5D: break; //"Apps" key pressed
+			case 0xDD: break; //"Apps" key released
+
 			case 0x81: break; //ESCAPE released
 			case 0x82: break; //1 released
 			case 0x83: break; //2 released
@@ -259,8 +267,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 
 			//TODO CIV
 			case 0x56: if(Uppercase) handler->OnKeyDown('|'); else handler->OnKeyDown('\\'); break;
-			case 0x5B: break; //Win? Key
-			case 0x5D: break; //Print Page? Key
+			case 0xE0: break; //Prtscr
 
 			//---END KEYMAPPING---
 
