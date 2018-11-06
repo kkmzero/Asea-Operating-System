@@ -34,6 +34,7 @@ namespace asea
 			void putChar(char c);
 			void sleep(asea::common::uint32_t sleepTime);
 			void printfHex(asea::common::uint8_t key);
+
 			}
 		}
 	}
