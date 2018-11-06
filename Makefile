@@ -1,3 +1,20 @@
+# This file is part of Asea OS.
+# Copyright (C) 2018 Ivan Kmeťo
+#
+# Asea OS is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option)
+# any later version.
+#
+# Asea OS is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# Asea OS.  If not, see <http://www.gnu.org/licenses/>.
+
+
 #sudo apt-get install g++ binutils libc6-dev-i386 grub-legacy grub-pc-bin xorriso
 
 GCCPARAMS = -m32 -Ialinc -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
@@ -5,6 +22,7 @@ ASPARAMS = --32
 LDPARAMS = -melf_i386
 
 objects = obj/loader.o \
+	  obj/System/asyslib.o \
 	  obj/gdt.o \
 	  obj/drivers/driver.o \
 	  obj/hwcom/port.o \
