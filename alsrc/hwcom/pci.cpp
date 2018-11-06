@@ -17,10 +17,12 @@
  */
 
 #include <hwcom/pci.h>
+#include <System/headers/asyslib.h>
 
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
+using namespace asea::System::headers::asl;
 
 PCInterconnectDeviceDescriptor::PCInterconnectDeviceDescriptor() {
 }
@@ -67,7 +69,6 @@ bool PCInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device)
 }
 
 void printf(char* str);
-void printfHex(uint8_t);
 
 void PCInterconnectController::SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts) {
 	for(int bus = 0; bus < 8; bus++)
