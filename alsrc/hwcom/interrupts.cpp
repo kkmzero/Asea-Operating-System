@@ -17,12 +17,13 @@
  */
 
 #include <hwcom/interrupts.h>
+#include <System/headers/asyslib.h>
 
 using namespace asea::common;
 using namespace asea::hwcom;
+using namespace asea::System::headers::asl;
 
 void printf(char* str);
-void printfHex(uint8_t);
 
 InterruptHandler::InterruptHandler(uint8_t interruptNumber, InterruptManager* interruptManager) {
 	this->interruptNumber = interruptNumber;
