@@ -102,7 +102,7 @@ class MouseToConsole : public MouseEventHandler
 			y = 12;
 			VideoMemory[80*y+x] = ((VideoMemory[80*y+x] & 0xF000) >> 4)
 								| ((VideoMemory[80*y+x] & 0x0F00) << 4)
-								| ((VideoMemory[80*y+x] & 0x00FF));			
+								| ((VideoMemory[80*y+x] & 0x00FF));
 		}
 
 	void OnMouseMove(int xoffset, int yoffset)
@@ -139,12 +139,12 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	AseaSystemInfo sysInfo;
 	AseaSystemMessages sysMsgs;
 
-	sysInfo.AS_PrintSysInfoMsg(0x001);
+	sysInfo.AS_PrintSysInfoMsg(SYSINFOMSG_COPYRIGHTVR);
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
 
-	sysMsgs.AS_StatusMsgInf(0x01);
+	sysMsgs.AS_StatusMsgInf(STATUSMSG_INF_INITIALIZING);
 	DriverManager drvManager;
 
 	PrintfKeyboardEventHandler kbhandler;
@@ -159,10 +159,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	PCIController.SelectDrivers(&drvManager, &interrupts);
 
 	drvManager.ActivateAll();
-	sysMsgs.AS_StatusMsg(0x01, "Hardware Initialization\n");
+	sysMsgs.AS_StatusMsg(STATUSMSG_OK, "Hardware Initialization\n");
 
 	interrupts.Activate();
-	sysMsgs.AS_StatusMsg(0x01, "Hardware Interrupts\n\n");
+	sysMsgs.AS_StatusMsg(STATUSMSG_OK, "Hardware Interrupts\n\n");
 
 	while(1);
 }
