@@ -29,18 +29,12 @@ namespace asea
 	{
 		namespace headers
 		{
-			void putChar(char c) {
-				char* f = " ";
-				f[0] = c;
-				printf(f);
+			namespace asl
+			{
+			void putChar(char c);
+			void sleep(asea::common::uint32_t sleepTime);
+			void printfHex(asea::common::uint8_t key);
 			}
-
-			void Sleep(asea::common::uint32_t sleepTime) {
-				for(int i = 0; i < sleepTime; i++) {
-					asm("nop");
-				}
-			}
-
 		}
 	}
 }
