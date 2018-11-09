@@ -69,31 +69,31 @@ clean:
 	rm -rf obj aseakk.bin asea.iso
 
 checkpreqs:
-	@echo "\033[1;33m[1] GCC\033[0m"
+	@echo "\033[1;33m[1/7] GCC\033[0m"
 	@echo "\033[1;36mRecommended GCC 6.3.0\033[0m"
 	@gcc --version
 
-	@echo "\033[1;33m[2] Binutils: GNU linker\033[0m"
+	@echo "\033[1;33m[2/7] Binutils: GNU linker\033[0m"
 	@echo "\033[1;36mRecommended GNU Binutils 2.28\033[0m"
 	@ld --version
 	@echo "\n"
-	@echo "\033[1;33m[3] Binutils: GNU assembler\033[0m"
+	@echo "\033[1;33m[3/7] Binutils: GNU assembler\033[0m"
 	@echo "\033[1;36mRecommended GNU Binutils 2.28\033[0m"
 	@as --version
 	@echo "\n"
-	@echo "\033[1;33m[4] libc6-dev-i386\033[0m"
+	@echo "\033[1;33m[4/7] libc6-dev-i386\033[0m"
 	@echo "\033[1;36mRecommended libc6-dev-i386 2.24-11 \033[0m"
 	@dpkg -l libc6-dev-i386
 	@echo "\n"
-	@echo "\033[1;33m[5] GRUB Legacy\033[0m"
+	@echo "\033[1;33m[5/7] GRUB Legacy\033[0m"
 	@echo "\033[1;36mRecommended grub-legacy 0.97-72 \033[0m"
 	@dpkg -l grub-legacy
 	@echo "\n"
-	@echo "\033[1;33m[6] grub-pc-bin\033[0m"
+	@echo "\033[1;33m[6/7] grub-pc-bin\033[0m"
 	@echo "\033[1;36mRecommended grub-pc-bin 2.02~beta3-5 \033[0m"
 	@dpkg -l grub-pc-bin
 	@echo "\n"
-	@echo "\033[1;33m[7] xorriso\033[0m"
+	@echo "\033[1;33m[7/7] xorriso\033[0m"
 	@echo "\033[1;36mRecommended xorriso 1.4.6 \033[0m"
 	@xorriso --version
 
