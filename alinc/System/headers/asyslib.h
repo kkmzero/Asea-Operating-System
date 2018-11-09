@@ -35,6 +35,14 @@ namespace asea
 			void sleep(asea::common::uint32_t sleepTime);
 			void printfHex(asea::common::uint8_t key);
 
+			char* itoa(asea::common::int32_t value, char* result, asea::common::int32_t base);
+
+				namespace math
+				{
+					double abs(double number);
+					double pow(double base, double exponent);
+				}
+
 			}
 		}
 	}
