@@ -33,10 +33,57 @@ void asl::sleep(uint32_t sleepTime) {
 	}
 }
 
+
 void asl::printfHex(uint8_t key) {
 	char* pfx = "00";
 	char* hex = "0123456789ABCDEF";
 	pfx[0] = hex[(key >> 4) & 0xF];
 	pfx[1] = hex[key & 0xF];
 	printf(pfx);
+}
+
+char* asl::itoa(int32_t value, char* result, int32_t base) {
+	if (base < 2 || base > 36) { *result = '\0'; return result; }
+
+	char* ptr = result, *ptr1 = result, tmp_char;
+	int tmp_value;
+
+	do {
+		tmp_value = value;
+		value /= base;
+		*ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+	} while (value);
+
+	if (tmp_value < 0) *ptr++ = '-';
+	*ptr-- = '\0';
+	while(ptr1 < ptr) {
+		tmp_char = *ptr;
+		*ptr--= *ptr1;
+		*ptr1++ = tmp_char;
+	}
+
+	return result;
+}
+
+
+
+
+double asl::math::abs(double value) {
+	if (value < 0)
+		return (value*(-1));
+	else {
+		return value;
+	}
+}
+
+double asl::math::pow(double base, double exponent) {
+	double result = 0;
+	double tmp_result = base;
+
+	for(double num = 0; num < (asl::math::abs((exponent-1))); num++) {
+		result = tmp_result * base;
+		tmp_result = result;
+	}
+
+	return result;
 }
