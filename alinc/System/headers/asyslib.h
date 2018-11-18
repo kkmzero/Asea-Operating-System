@@ -43,6 +43,12 @@ namespace asea
 					double pow(double base, double exponent);
 				}
 
+				namespace io
+				{
+					void outb(asea::common::uint16_t port, asea::common::uint8_t val);
+					asea::common::uint8_t inb(asea::common::uint16_t port);
+				}
+
 			}
 		}
 	}
