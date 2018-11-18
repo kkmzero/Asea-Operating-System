@@ -25,12 +25,35 @@
 #include <drivers/mouse.h>
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
+#include <System/headers/asyslib.h>
 
 using namespace asea;
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
 using namespace asea::System::headers;
+
+
+void cursor_enable(uint8_t cursor_start, uint8_t cursor_end) {
+	asl::io::outb(0x3D4, 0x0A);
+	asl::io::outb(0x3D5, (asl::io::inb(0x3D5) & 0xC0) | cursor_start);
+	asl::io::outb(0x3D4, 0x0B);
+	asl::io::outb(0x3D5, (asl::io::inb(0x3D5) & 0xE0) | cursor_end);
+}
+
+void cursor_disable() {
+	asl::io::outb(0x3D4, 0x0A);
+	asl::io::outb(0x3D5, 0x20);
+}
+
+void cursor_update(int32_t x, int32_t y) {
+	uint16_t pos = y * 80 + x;
+ 
+	asl::io::outb(0x3D4, 0x0F);
+	asl::io::outb(0x3D5, (uint8_t) (pos & 0xFF));
+	asl::io::outb(0x3D4, 0x0E);
+	asl::io::outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
 
 void printf(char* str) {
 	static uint16_t* VideoMemory = (uint16_t*)0xb8000;
@@ -78,6 +101,7 @@ void printf(char* str) {
 			y = 0;
 		}
 	}
+	cursor_update(x, y);
 }
 
 class PrintfKeyboardEventHandler : public KeyboardEventHandler
@@ -136,6 +160,10 @@ extern "C" void callConstructors() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
+	cursor_disable();
+	cursor_enable(0, 15);
+	cursor_update(0, 0);
+
 	AseaSystemInfo sysInfo;
 	AseaSystemMessages sysMsgs;
 
