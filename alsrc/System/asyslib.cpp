@@ -87,3 +87,16 @@ double asl::math::pow(double base, double exponent) {
 
 	return result;
 }
+
+
+
+void asl::io::outb(uint16_t port, uint8_t val) {
+	asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port) );
+}
+
+uint8_t asl::io::inb(uint16_t port) {
+	uint8_t ret;
+	asm volatile ("inb %1, %0" : "=a"(ret) : "Nd"(port) );
+
+	return ret;
+}
