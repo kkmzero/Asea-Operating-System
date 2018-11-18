@@ -25,8 +25,9 @@ namespace asea
 	{
 		namespace headers
 		{
-			#define ASD_AL_VERSION "0.1.14"
-			#define ASD_AL_BUILDVR "(build dev181106)"
+			#define ASD_AL_VERSION "0.1.15"
+			#define ASD_AL_FULLVER "0.1.15.181118-dev"
+			#define ASD_AL_BUILDVR "(build dev181118)"
 			#define ASD_AS_VERSION "0.1.2"
 
 		}
