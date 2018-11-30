@@ -39,8 +39,9 @@ namespace asea
 
 				namespace math
 				{
-					double abs(double number);
+					double abs(double num);
 					double pow(double base, double exponent);
+					asea::common::int32_t fact(asea::common::int32_t num);
 				}
 
 				namespace io
