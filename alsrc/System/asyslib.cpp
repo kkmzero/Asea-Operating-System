@@ -68,25 +68,32 @@ char* asl::itoa(int32_t value, char* result, int32_t base) {
 
 
 
-double asl::math::abs(double value) {
-	if (value < 0)
-		return (value*(-1));
-	else {
-		return value;
-	}
+double asl::math::abs(double num) {
+	return num < 0 ? -num : num;
 }
 
 double asl::math::pow(double base, double exponent) {
 	double result = 0;
 	double tmp_result = base;
 
-	for(double num = 0; num < (asl::math::abs((exponent-1))); num++) {
+	for(double d = 0; d < (asl::math::abs((exponent-1))); d++) {
 		result = tmp_result * base;
 		tmp_result = result;
 	}
 
 	return result;
 }
+
+int32_t asl::math::fact(int32_t num) {
+	int32_t factorial = 1;
+
+	for(int i = 1; i <= num; ++i) {
+		factorial *= i;
+	}
+
+	return factorial;
+}
+
 
 
 
