@@ -149,14 +149,22 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 	switch(dev.vendor_id)
 	{
 		case 0x1022: //Advanced Micro Devices (AMD)
-			switch(dev.device_id)
-			{
+			switch(dev.device_id) {
 				case 0x2000: //am79c973 (driver?)
 					break;
 			}
 			break;
 
-		case 0x8086: //Intel
+		case 0x8086: //Intel Corporation
+			break;
+
+		case 0x80EE: //InnoTek Systemberatung GmbH
+			switch(dev.device_id) {
+				case 0xBEEF: //VirtualBox Graphics Adapter
+					break;
+				case 0xCAFE: //VirtualBox Guest Service
+					break;
+			}
 			break;
 	}
 
@@ -164,8 +172,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 	switch(dev.class_id)
 	{
 		case 0x00: //Unclassified
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Non-VGA Compatible devices
 					break;
 
@@ -175,8 +182,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x01: //Mass Storage Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //SCSI Bus Controller
 					break;
 
@@ -210,8 +216,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x02: //Network Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Ethernet Controller
 					break;
 
@@ -245,8 +250,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x03: //Display Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //VGA Compatible Controller
 					break;
 
@@ -262,8 +266,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x04: //Multimedia Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Multimedia Video Controller
 					break;
 
@@ -282,8 +285,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x05: //Memory Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //RAM Controller
 					break;
 
@@ -296,8 +298,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x06: //Bridge Device
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Host Bridge
 					break;
 
@@ -337,8 +338,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x07: //Simple Communication Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Serial Controller
 					break;
 
@@ -363,8 +363,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x08: //Base System Peripheral
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //PIC
 					break;
 
@@ -392,8 +391,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x09: //Input Device Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Keyboard Controller
 					break;
 
@@ -415,8 +413,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x0A: //Docking Station
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Generic
 					break;
 
@@ -426,8 +423,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x0B: //Processor
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //386
 					break;
 
@@ -452,8 +448,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x0C: //Serial Bus Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //FireWire (IEEE 1394) Controller
 					break;
 
@@ -487,8 +482,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x0D: //Wireless Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //iRDA Compatible Controller
 					break;
 
@@ -516,16 +510,14 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x0E: //Intelligent Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //I20
 					break;
 			}
 			break;
 
 		case 0x0F: //Satellite Communication Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x01: //Satellite TV Controller
 					break;
 
@@ -541,8 +533,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x10: //Encryption Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //Network and Computing Encrpytion/Decryption
 					break;
 
@@ -555,8 +546,7 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
 			break;
 
 		case 0x11: //Signal Processing Controller
-			switch(dev.subclass_id)
-			{
+			switch(dev.subclass_id) {
 				case 0x00: //DPIO Modules
 					break;
 
