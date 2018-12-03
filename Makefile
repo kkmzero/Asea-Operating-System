@@ -31,6 +31,7 @@ objects = obj/loader.o \
 	  obj/hwcom/pci.o \
 	  obj/drivers/keyboard.o \
 	  obj/drivers/mouse.o \
+	  obj/drivers/vga.o \
 	  obj/System/sysnfo.o \
 	  obj/System/sysmsgs.o \
 	  obj/kernel.o
