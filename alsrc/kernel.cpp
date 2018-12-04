@@ -23,15 +23,18 @@
 #include <drivers/driver.h>
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
+#include <drivers/vga.h>
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
 #include <System/headers/asyslib.h>
+#include <System/core.h>
 
 using namespace asea;
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
 using namespace asea::System::headers;
+using namespace asea::System::core;
 
 
 void cursor_enable(uint8_t cursor_start, uint8_t cursor_end) {
