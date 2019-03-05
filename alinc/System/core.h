@@ -31,7 +31,7 @@ namespace asea
 	namespace System
 	{
 		namespace core
-		{asda
+		{
 			static void reboot() {
 				#define KBRD_INTRFC 0x64
  
