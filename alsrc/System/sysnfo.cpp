@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018, 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -36,7 +36,7 @@ void AseaSystemInfo::AS_PrintSysInfoMsg(SYSINFO_MSG_ID sysinfomsg_id) {
 			break;
 
 		case SYSINFOMSG_COPYRIGHTVR:
-			printf("Copyright (c) 2018, Asea OS. All Rights Reserved.\n");
+			printf("Copyright (c) 2018 - 2019, Asea OS. All Rights Reserved.\n");
 			printf("AL " ASD_AL_VERSION " " ASD_AL_BUILDVR "\n\n");
 			break;
 
