@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018, 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -18,6 +18,7 @@
 
 #include <common/types.h>
 #include <gdt.h>
+#include <memmgr.h>
 #include <hwcom/interrupts.h>
 #include <hwcom/pci.h>
 #include <drivers/driver.h>
@@ -174,6 +175,26 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
+
+	//
+	uint32_t* memupper = (uint32_t*)(((size_t)multiboot_structure) + 8);
+	size_t heap = 10*1024*1024;
+	MemMgr memMgr(heap, (*memupper)*1024 - heap - 10*1024);
+	
+	printf("heap: 0x");
+	asl::printfHex((heap >> 24) & 0xFF);
+	asl::printfHex((heap >> 16) & 0xFF);
+	asl::printfHex((heap >> 8 ) & 0xFF);
+	asl::printfHex((heap      ) & 0xFF);
+	void* allocated = memMgr.malloc(1024);
+
+	printf("\nallocated: 0x");
+	asl::printfHex(((size_t)allocated >> 24) & 0xFF);
+	asl::printfHex(((size_t)allocated >> 16) & 0xFF);
+	asl::printfHex(((size_t)allocated >> 8 ) & 0xFF);
+	asl::printfHex(((size_t)allocated      ) & 0xFF);
+	printf("\n\n");
+	//
 
 	sysMsgs.AS_StatusMsgInf(STATUSMSG_INF_INITIALIZING);
 	DriverManager drvManager;
