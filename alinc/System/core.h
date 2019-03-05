@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018, 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
