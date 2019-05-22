@@ -1,5 +1,5 @@
 # This file is part of Asea OS.
-# Copyright (C) 2018, 2019 Ivan Kmeťo
+# Copyright (C) 2018 - 2019 Ivan Kmeťo
 #
 # Asea OS is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -15,11 +15,10 @@
 # Asea OS.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#sudo apt-get install g++ binutils libc6-dev-i386 grub-legacy grub-pc-bin xorriso
-
 GCCPARAMS = -m32 -Ialinc -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
+VINPARAM = 0.12-dev190522
 
 objects = obj/loader.o \
 	  obj/System/asyslib.o \
@@ -48,10 +47,7 @@ obj/%.o: alsrc/%.s
 aseakk.bin: linker.ld $(objects)
 	ld $(LDPARAMS) -T $< -o $@ $(objects)
 
-install: aseakk.bin
-	sudo cp $< /boot/aseakk.bin
-
-asea.iso: aseakk.bin
+iso: aseakk.bin
 	mkdir iso
 	mkdir iso/boot
 	mkdir iso/boot/grub
@@ -63,12 +59,12 @@ asea.iso: aseakk.bin
 	echo '	multiboot /boot/aseakk.bin' >> iso/boot/grub/grub.cfg
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=$@ iso
+	grub-mkrescue --output=asea-$(VINPARAM).iso iso
 	rm -rf iso
 
-.PHONY: clean checkpreqs installpreqs
+.PHONY: clean checkpreqs installpreqs install
 clean:
-	rm -rf obj aseakk.bin asea.iso
+	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
 
 checkpreqs:
 	@echo "\033[1;33m[1/7] GCC\033[0m"
@@ -112,3 +108,6 @@ installpreqs:
 	@sudo apt-get install grub-pc-bin
 	@echo "\033[1;33m[6/6] Check & Install: xorriso\033[0m"
 	@sudo apt-get install xorriso
+
+install: aseakk.bin
+	sudo cp $< /boot/aseakk.bin
