@@ -21,7 +21,7 @@ LDPARAMS = -melf_i386
 VINPARAM = 0.12-dev190522
 
 objects = obj/loader.o \
-	  obj/System/asyslib.o \
+	  obj/System/lib/asl.o \
 	  obj/gdt.o \
 	  obj/memmgr.o \
 	  obj/drivers/driver.o \
