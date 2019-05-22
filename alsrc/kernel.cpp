@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018, 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -176,7 +176,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	GlobalDescriptorTable gdt;
 	InterruptManager interrupts(&gdt);
 
-	//
+	/*
 	uint32_t* memupper = (uint32_t*)(((size_t)multiboot_structure) + 8);
 	size_t heap = 10*1024*1024;
 	MemMgr memMgr(heap, (*memupper)*1024 - heap - 10*1024);
@@ -194,7 +194,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 	asl::printfHex(((size_t)allocated >> 8 ) & 0xFF);
 	asl::printfHex(((size_t)allocated      ) & 0xFF);
 	printf("\n\n");
-	//
+	*/
 
 	sysMsgs.AS_StatusMsgInf(STATUSMSG_INF_INITIALIZING);
 	DriverManager drvManager;
