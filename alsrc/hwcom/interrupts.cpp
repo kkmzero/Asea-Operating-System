@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018 - 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -17,11 +17,11 @@
  */
 
 #include <hwcom/interrupts.h>
-#include <System/headers/asyslib.h>
+#include <System/lib/asl.h>
 
 using namespace asea::common;
 using namespace asea::hwcom;
-using namespace asea::System::headers::asl;
+using namespace asea::System::lib::asl;
 
 void printf(char* str);
 
