@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018, 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -25,9 +25,9 @@ namespace asea
 	{
 		namespace headers
 		{
-			#define ASD_AL_VERSION "0.2.0"
-			#define ASD_AL_FULLVER "0.2.0.190305-dev"
-			#define ASD_AL_BUILDVR "(build dev190305)"
+			#define ASD_AL_VERSION "0.2.1"
+			#define ASD_AL_FULLVER "0.2.1.190522-dev"
+			#define ASD_AL_BUILDVR "(build dev190522)"
 			#define ASD_AS_VERSION "0.12"
 
 		}
