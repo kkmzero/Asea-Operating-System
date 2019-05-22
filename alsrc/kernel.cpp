@@ -27,7 +27,7 @@
 #include <drivers/vga.h>
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
-#include <System/headers/asyslib.h>
+#include <System/lib/asl.h>
 #include <System/core.h>
 
 using namespace asea;
@@ -35,6 +35,7 @@ using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
 using namespace asea::System::headers;
+using namespace asea::System::lib;
 using namespace asea::System::core;
 
 
