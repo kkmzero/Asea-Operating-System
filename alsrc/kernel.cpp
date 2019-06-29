@@ -28,7 +28,7 @@
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
 #include <System/lib/asl.h>
-#include <System/core.h>
+#include <System/syscalls.h>
 
 using namespace asea;
 using namespace asea::common;
@@ -36,7 +36,7 @@ using namespace asea::drivers;
 using namespace asea::hwcom;
 using namespace asea::System::headers;
 using namespace asea::System::lib;
-using namespace asea::System::core;
+using namespace asea::System::syscalls;
 
 
 void cursor_enable(uint8_t cursor_start, uint8_t cursor_end) {
