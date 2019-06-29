@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018 - 2019 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -21,24 +21,30 @@
 
 namespace asea
 {
-	namespace common
-	{
-		typedef char                     int8_t;
-		typedef unsigned char           uint8_t;
-		typedef short                   int16_t;
-		typedef unsigned short         uint16_t;
-		typedef int                     int32_t;
-		typedef unsigned int           uint32_t;
-		typedef long long int           int64_t;
-		typedef unsigned long long int uint64_t;
+    namespace common
+    {
+        typedef char                     int8_t;
+        typedef unsigned char           uint8_t;
+        typedef short                   int16_t;
+        typedef unsigned short         uint16_t;
+        typedef int                     int32_t;
+        typedef unsigned int           uint32_t;
+        typedef long long int           int64_t;
+        typedef unsigned long long int uint64_t;
 
-		typedef const char*              string;
-		typedef uint32_t                 size_t;
+        typedef const char*              string;
+        typedef uint32_t                 size_t;
 
-		#ifndef NULL
-		#define NULL 0L
-		#endif
-	}
+#       ifndef NULL
+#       	if !defined(__cplusplus)
+#       		define NULL ((void *)0)
+#       	elif __cplusplus >= 201103L
+#       		define NULL nullptr
+#       	else
+#       		define NULL 0L
+#       	endif
+#       endif
+    }
 }
-    
+ 
 #endif
