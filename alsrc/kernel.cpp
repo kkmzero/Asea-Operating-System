@@ -27,38 +27,15 @@
 //#include <drivers/vga.h>
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
-#include <System/lib/asl.h>
-#include <System/syscalls.h>
+#include <System/cursor.h>
 
 using namespace asea;
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
+using namespace asea::System;
 using namespace asea::System::headers;
-using namespace asea::System::lib;
-using namespace asea::System::syscalls;
 
-
-void cursor_enable(uint8_t cursor_start, uint8_t cursor_end) {
-    asl::io::outb(0x3D4, 0x0A);
-    asl::io::outb(0x3D5, (asl::io::inb(0x3D5) & 0xC0) | cursor_start);
-    asl::io::outb(0x3D4, 0x0B);
-    asl::io::outb(0x3D5, (asl::io::inb(0x3D5) & 0xE0) | cursor_end);
-}
-
-void cursor_disable() {
-    asl::io::outb(0x3D4, 0x0A);
-    asl::io::outb(0x3D5, 0x20);
-}
-
-void cursor_update(int32_t x, int32_t y) {
-    uint16_t pos = y * 80 + x;
-
-    asl::io::outb(0x3D4, 0x0F);
-    asl::io::outb(0x3D5, (uint8_t) (pos & 0xFF));
-    asl::io::outb(0x3D4, 0x0E);
-    asl::io::outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
-}
 
 void printf(char* str) {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
