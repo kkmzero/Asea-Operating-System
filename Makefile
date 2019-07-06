@@ -15,7 +15,7 @@
 # Asea OS.  If not, see <http://www.gnu.org/licenses/>.
 
 
-GCCPARAMS = -m32 -Ialinc -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
+GCCPARAMS = -m32 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 VINPARAM = 0.12-dev190522
