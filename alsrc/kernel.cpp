@@ -28,6 +28,8 @@
 #include <System/headers/sysnfo.h>
 #include <System/headers/sysmsgs.h>
 #include <System/cursor.h>
+#include <System/syscalls.h>
+#include <astd>
 
 using namespace asea;
 using namespace asea::common;
@@ -160,17 +162,17 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     MemMgr memMgr(heap, (*memupper)*1024 - heap - 10*1024);
 
     printf("heap: 0x");
-    asl::printfHex((heap >> 24) & 0xFF);
-    asl::printfHex((heap >> 16) & 0xFF);
-    asl::printfHex((heap >> 8 ) & 0xFF);
-    asl::printfHex((heap      ) & 0xFF);
+    printfhex((heap >> 24) & 0xFF);
+    printfhex((heap >> 16) & 0xFF);
+    printfhex((heap >> 8 ) & 0xFF);
+    printfhex((heap      ) & 0xFF);
     void* allocated = memMgr.malloc(1024);
 
     printf("\nallocated: 0x");
-    asl::printfHex(((size_t)allocated >> 24) & 0xFF);
-    asl::printfHex(((size_t)allocated >> 16) & 0xFF);
-    asl::printfHex(((size_t)allocated >> 8 ) & 0xFF);
-    asl::printfHex(((size_t)allocated      ) & 0xFF);
+    printfhex(((size_t)allocated >> 24) & 0xFF);
+    printfhex(((size_t)allocated >> 16) & 0xFF);
+    printfhex(((size_t)allocated >> 8 ) & 0xFF);
+    printfhex(((size_t)allocated      ) & 0xFF);
     printf("\n\n");
     */
 
