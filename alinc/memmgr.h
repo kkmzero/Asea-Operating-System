@@ -23,26 +23,26 @@
 
 namespace asea
 {
-	struct MemoryChunk
-	{
-		MemoryChunk *next;
-		MemoryChunk *prev;
-		bool allocated;
-		common::size_t size;
-	};
+    struct MemoryChunk
+    {
+        MemoryChunk *next;
+        MemoryChunk *prev;
+        bool allocated;
+        common::size_t size;
+    };
 
-	class MemMgr
-	{
-	protected:
-		MemoryChunk* first;
-	public:
-		static MemMgr *activeMemMgr;
-		MemMgr(common::size_t first, common::size_t size);
-		~MemMgr();
-		
-		void* malloc(common::size_t size);
-		void free(void* ptr);
-	};
+    class MemMgr
+    {
+    protected:
+        MemoryChunk* first;
+    public:
+        static MemMgr *activeMemMgr;
+        MemMgr(common::size_t first, common::size_t size);
+        ~MemMgr();
+
+        void* malloc(common::size_t size);
+        void free(void* ptr);
+    };
 
 }
 
