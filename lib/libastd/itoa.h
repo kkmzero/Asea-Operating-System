@@ -23,7 +23,7 @@
 
 
 //
-char* itoa(asea::common::int32_t value, char* result, asea::common::int32_t base)
+static char* itoa(asea::common::int32_t value, char* result, asea::common::int32_t base)
 {
     if (base < 2 || base > 36) { *result = '\0'; return result; }
 
