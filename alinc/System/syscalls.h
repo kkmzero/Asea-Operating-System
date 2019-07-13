@@ -20,7 +20,7 @@
 #define __ASEA__SYSTEM__SYSCALLS_H
 
 #include <common/types.h>
-#include <System/lib/asl.h>
+#include <astd>
 
 void printf(char*);
 
@@ -28,7 +28,7 @@ namespace asea
 {
     namespace System
     {
-        static void reboot() {
+        void reboot() {
             #define KBRD_INTRFC 0x64
  
             /* keyboard interface bits */
@@ -49,21 +49,27 @@ namespace asea
 
             /* Clear all keyboard buffers (output and command buffers) */
             do {
-                temp = asea::System::lib::asl::io::inb(KBRD_INTRFC); /* empty user data */
+                temp = inb(KBRD_INTRFC); /* empty user data */
                 if (check_flag(temp, KBRD_BIT_KDATA) != 0)
-                    asea::System::lib::asl::io::inb(KBRD_IO); /* empty keyboard data */
+                    inb(KBRD_IO); /* empty keyboard data */
             } while (check_flag(temp, KBRD_BIT_UDATA) != 0);
 
-            asea::System::lib::asl::io::outb(KBRD_INTRFC, KBRD_RESET); /* pulse CPU reset line */
+            outb(KBRD_INTRFC, KBRD_RESET); /* pulse CPU reset line */
             loop:
                 asm volatile ("hlt"); /* if that didn't work, halt the CPU */
             goto loop; /* if a NMI is received, halt again */
         }
 
-        static void kernelPanic(char* message) {
+        void kernelPanic(char* message) {
             asm("cli");
             printf(message);
             while(1);
+        }
+
+        void sleep(asea::common::uint32_t sleepTime) {
+            for(int i = 0; i < sleepTime; i++) {
+                asm("nop");
+            }
         }
 
     }
