@@ -23,7 +23,7 @@ void printf(char*);
 
 
 //
-void putchar(char c)
+static void putchar(char c)
 {
     char* f = " ";
     f[0] = c;
