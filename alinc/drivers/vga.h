@@ -25,41 +25,41 @@
 
 namespace asea
 {
-	namespace drivers
-	{
-		class VideoGraphicsArray
-		{
-		protected:
-			hwcom::Port8Bit miscPort;
-			hwcom::Port8Bit crtcIndexPort;
-			hwcom::Port8Bit crtcDataPort;
-			hwcom::Port8Bit sequencerIndexPort;
-			hwcom::Port8Bit sequencerDataPort;
-			hwcom::Port8Bit graphicsControllerIndexPort;
-			hwcom::Port8Bit graphicsControllerDataPort;
-			hwcom::Port8Bit attributeControllerIndexPort;
-			hwcom::Port8Bit attributeControllerReadPort;
-			hwcom::Port8Bit attributeControllerWritePort;
-			hwcom::Port8Bit attributeControllerResetPort;
+    namespace drivers
+    {
+        class VideoGraphicsArray
+        {
+        protected:
+            hwcom::Port8Bit miscPort;
+            hwcom::Port8Bit crtcIndexPort;
+            hwcom::Port8Bit crtcDataPort;
+            hwcom::Port8Bit sequencerIndexPort;
+            hwcom::Port8Bit sequencerDataPort;
+            hwcom::Port8Bit graphicsControllerIndexPort;
+            hwcom::Port8Bit graphicsControllerDataPort;
+            hwcom::Port8Bit attributeControllerIndexPort;
+            hwcom::Port8Bit attributeControllerReadPort;
+            hwcom::Port8Bit attributeControllerWritePort;
+            hwcom::Port8Bit attributeControllerResetPort;
 
-			void WriteRegisters(asea::common::uint8_t* registers);
-			asea::common::uint8_t* GetFrameBufferSegment();
+            void WriteRegisters(asea::common::uint8_t* registers);
+            asea::common::uint8_t* GetFrameBufferSegment();
 
-			virtual asea::common::uint8_t GetColorIndex (asea::common::uint8_t r, asea::common::uint8_t g, asea::common::uint8_t b);
+            virtual asea::common::uint8_t GetColorIndex (asea::common::uint8_t r, asea::common::uint8_t g, asea::common::uint8_t b);
 
-		public:
-			VideoGraphicsArray();
-			~VideoGraphicsArray();
+        public:
+            VideoGraphicsArray();
+            ~VideoGraphicsArray();
 
-			virtual bool SupportsMode(asea::common::uint32_t width, asea::common::uint32_t height, asea::common::uint32_t colordepth);
-			virtual bool SetMode(asea::common::uint32_t width, asea::common::uint32_t height, asea::common::uint32_t colordepth);
-			virtual void PutPixel(asea::common::uint32_t x, asea::common::uint32_t y, asea::common::uint8_t r, asea::common::uint8_t g, asea::common::uint8_t b);
+            virtual bool SupportsMode(asea::common::uint32_t width, asea::common::uint32_t height, asea::common::uint32_t colordepth);
+            virtual bool SetMode(asea::common::uint32_t width, asea::common::uint32_t height, asea::common::uint32_t colordepth);
+            virtual void PutPixel(asea::common::uint32_t x, asea::common::uint32_t y, asea::common::uint8_t r, asea::common::uint8_t g, asea::common::uint8_t b);
 
-			virtual void PutPixel(asea::common::uint32_t x, asea::common::uint32_t y, asea::common::uint8_t colorindex);
+            virtual void PutPixel(asea::common::uint32_t x, asea::common::uint32_t y, asea::common::uint8_t colorindex);
 
-		};
+        };
 
-	}
+    }
 }
 
 #endif
