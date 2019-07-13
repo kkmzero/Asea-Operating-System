@@ -18,7 +18,7 @@
 GCCPARAMS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
-VINPARAM = 0.12-dev190522
+VINPARAM = 0.12-dev190713
 
 objects = obj/loader.o \
 	  obj/gdt.o \
