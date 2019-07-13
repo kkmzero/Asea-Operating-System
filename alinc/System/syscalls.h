@@ -28,7 +28,7 @@ namespace asea
 {
     namespace System
     {
-        void reboot() {
+        static void reboot() {
             #define KBRD_INTRFC 0x64
  
             /* keyboard interface bits */
@@ -60,13 +60,13 @@ namespace asea
             goto loop; /* if a NMI is received, halt again */
         }
 
-        void kernelPanic(char* message) {
+        static void kernelPanic(char* message) {
             asm("cli");
             printf(message);
             while(1);
         }
 
-        void sleep(asea::common::uint32_t sleepTime) {
+        static void sleep(asea::common::uint32_t sleepTime) {
             for(int i = 0; i < sleepTime; i++) {
                 asm("nop");
             }
