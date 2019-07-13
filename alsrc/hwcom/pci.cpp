@@ -17,12 +17,11 @@
  */
 
 #include <hwcom/pci.h>
-#include <System/lib/asl.h>
+#include <astd>
 
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
-using namespace asea::System::lib::asl;
 
 PCInterconnectDeviceDescriptor::PCInterconnectDeviceDescriptor() {
 }
@@ -95,18 +94,18 @@ void PCInterconnectController::SelectDrivers(DriverManager* driverManager, Inter
 				}
 
 				printf("PCI BUS ");
-				printfHex(bus & 0xFF);
+				printfhex(bus & 0xFF);
 
 				printf(", DEVICE ");
-				printfHex(device & 0xFF);
+				printfhex(device & 0xFF);
 
 				printf(" = VENDOR ");
-				printfHex((dev.vendor_id & 0xFF00) >> 8);
-				printfHex(dev.vendor_id & 0xFF);
+				printfhex((dev.vendor_id & 0xFF00) >> 8);
+				printfhex(dev.vendor_id & 0xFF);
 
 				printf(", DEVICE ");
-				printfHex((dev.device_id & 0xFF00) >> 8);
-				printfHex(dev.device_id & 0xFF);
+				printfhex((dev.device_id & 0xFF00) >> 8);
+				printfhex(dev.device_id & 0xFF);
 				printf("\n");
 			}
 		}
