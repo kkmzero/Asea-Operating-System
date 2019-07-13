@@ -20,31 +20,31 @@
 #define __ASEA__SYSTEM__CURSOR_H
 
 #include <common/types.h>
-#include <System/lib/asl.h>
+#include <astd>
 
 namespace asea
 {
     namespace System
     {
         static void cursor_enable(asea::common::uint8_t cursor_start, asea::common::uint8_t cursor_end) {
-            asea::System::lib::asl::io::outb(0x3D4, 0x0A);
-            asea::System::lib::asl::io::outb(0x3D5, (asea::System::lib::asl::io::inb(0x3D5) & 0xC0) | cursor_start);
-            asea::System::lib::asl::io::outb(0x3D4, 0x0B);
-            asea::System::lib::asl::io::outb(0x3D5, (asea::System::lib::asl::io::inb(0x3D5) & 0xE0) | cursor_end);
+            outb(0x3D4, 0x0A);
+            outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
+            outb(0x3D4, 0x0B);
+            outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
         }
 
         static void cursor_disable() {
-            asea::System::lib::asl::io::outb(0x3D4, 0x0A);
-            asea::System::lib::asl::io::outb(0x3D5, 0x20);
+            outb(0x3D4, 0x0A);
+            outb(0x3D5, 0x20);
         }
 
         static void cursor_update(asea::common::int32_t x, asea::common::int32_t y) {
             asea::common::uint16_t pos = y * 80 + x;
 
-            asea::System::lib::asl::io::outb(0x3D4, 0x0F);
-            asea::System::lib::asl::io::outb(0x3D5, (asea::common::uint8_t) (pos & 0xFF));
-            asea::System::lib::asl::io::outb(0x3D4, 0x0E);
-            asea::System::lib::asl::io::outb(0x3D5, (asea::common::uint8_t) ((pos >> 8) & 0xFF));
+            outb(0x3D4, 0x0F);
+            outb(0x3D5, (asea::common::uint8_t) (pos & 0xFF));
+            outb(0x3D4, 0x0E);
+            outb(0x3D5, (asea::common::uint8_t) ((pos >> 8) & 0xFF));
         }
 
     }
