@@ -23,13 +23,13 @@
 
 
 //
-void outb(asea::common::uint16_t port, asea::common::uint8_t val)
+static void outb(asea::common::uint16_t port, asea::common::uint8_t val)
 {
     asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port) );
 }
 
 //
-asea::common::uint8_t inb(asea::common::uint16_t port)
+static asea::common::uint8_t inb(asea::common::uint16_t port)
 {
     asea::common::uint8_t ret;
     asm volatile ("inb %1, %0" : "=a"(ret) : "Nd"(port) );
