@@ -25,7 +25,7 @@ void printf(char*);
 
 
 //
-void printfhex(asea::common::uint8_t key)
+static void printfhex(asea::common::uint8_t key)
 {
     char* pfx = "00";
     char* hex = "0123456789ABCDEF";
