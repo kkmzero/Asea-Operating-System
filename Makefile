@@ -15,7 +15,7 @@
 # Asea OS.  If not, see <http://www.gnu.org/licenses/>.
 
 
-GCCPARAMS = -m32 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
+GCCPARAMS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 VINPARAM = 0.12-dev190522
@@ -62,11 +62,11 @@ iso: aseakk.bin
 	grub-mkrescue --output=asea-$(VINPARAM).iso iso
 	rm -rf iso
 
-.PHONY: clean checkpreqs installpreqs install
+.PHONY: clean checkdeps installdeps install
 clean:
 	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
 
-checkpreqs:
+checkdeps:
 	@echo "\033[1;33m[1/7] GCC\033[0m"
 	@echo "\033[1;36mRecommended GCC 6.3.0\033[0m"
 	@gcc --version
@@ -95,7 +95,7 @@ checkpreqs:
 	@echo "\033[1;36mRecommended xorriso 1.4.6 \033[0m"
 	@xorriso --version
 
-installpreqs:
+installdeps:
 	@echo "\033[1;33m[1/6] Check & Install: GCC\033[0m"
 	@sudo apt-get install gcc
 	@echo "\033[1;33m[2/6] Check & Install: Binutils\033[0m"
