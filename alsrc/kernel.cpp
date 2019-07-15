@@ -17,6 +17,7 @@
  */
 
 #include <common/types.h>
+#include <astd>
 #include <gdt.h>
 #include <memmgr.h>
 #include <hwcom/interrupts.h>
@@ -29,7 +30,6 @@
 #include <System/headers/sysmsgs.h>
 #include <System/cursor.h>
 #include <System/syscalls.h>
-#include <astd>
 
 using namespace asea;
 using namespace asea::common;
@@ -39,9 +39,10 @@ using namespace asea::System;
 using namespace asea::System::headers;
 
 
-void printf(char* str) {
+void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
     static uint8_t x = 0, y = 0;
+    uint8_t text_color = ((bgcolor & 0x0F) << 4) | (forecolor & 0x0F);
 
     for(int i = 0; str[i] != '\0'; ++i)
     {
@@ -64,7 +65,7 @@ void printf(char* str) {
                 break;
 
             default:
-                VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | str[i];
+                VideoMemory[80*y+x] = (VideoMemory[80*y+x] & (text_color << 8)) | str[i];
                 x++;
                 break;
         }
@@ -78,7 +79,7 @@ void printf(char* str) {
         if (y >= 25)
         {
             for(y = 0; y < 25; y++)
-            for (x =0; x < 80; x++)
+            for(x = 0; x < 80; x++)
             VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | ' ';
 
             x = 0;
@@ -93,9 +94,7 @@ class PrintfKeyboardEventHandler : public KeyboardEventHandler
     public:
         void OnKeyDown(char c)
         {
-            char* foo = " ";
-            foo[0] = c;
-            printf(foo);
+            putchar(c);
         }
 };
 
