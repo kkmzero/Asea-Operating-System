@@ -22,6 +22,7 @@
 
 #include "libastd/io.h"
 
+#include "libastd/printf.h"
 #include "libastd/putchar.h"
 #include "libastd/printfhex.h"
 #include "libastd/itoa.h"
