@@ -45,8 +45,6 @@ commandport(0x64)
 KeyboardDriver::~KeyboardDriver() {
 }
 
-void printf(char*);
-
 void KeyboardDriver::Activate() {
     while(commandport.Read() & 0x1)
         dataport.Read();
