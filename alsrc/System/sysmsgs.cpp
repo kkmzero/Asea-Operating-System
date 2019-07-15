@@ -17,6 +17,7 @@
  */
 
 #include <System/headers/sysmsgs.h>
+#include <astd>
 
 using namespace asea::common;
 using namespace asea::System::headers;
@@ -26,8 +27,6 @@ AseaSystemMessages::AseaSystemMessages() {
 
 AseaSystemMessages::~AseaSystemMessages() {
 }
-
-void printf(char* str);
 
 void AseaSystemMessages::AS_StatusMsg(STATUS_MSG_ID statusmsg_id, char* description) {
 	switch(statusmsg_id) {
