@@ -18,6 +18,7 @@
 
 #include <System/headers/sysnfo.h>
 #include <System/headers/verdef.h>
+#include <astd>
 
 using namespace asea::common;
 using namespace asea::System::headers;
@@ -27,8 +28,6 @@ AseaSystemInfo::AseaSystemInfo() {
 
 AseaSystemInfo::~AseaSystemInfo() {
 }
-
-void printf(char* str);
 
 void AseaSystemInfo::AS_PrintSysInfoMsg(SYSINFO_MSG_ID sysinfomsg_id) {
 	switch(sysinfomsg_id) {
