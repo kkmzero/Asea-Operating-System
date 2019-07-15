@@ -67,8 +67,6 @@ bool PCInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device)
 	return Read(bus, device, 0, 0x0E) & (1<<7);
 }
 
-void printf(char* str);
-
 void PCInterconnectController::SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts) {
 	for(int bus = 0; bus < 8; bus++)
 	{
