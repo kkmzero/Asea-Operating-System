@@ -22,8 +22,6 @@
 using namespace asea::common;
 using namespace asea::hwcom;
 
-void printf(char* str);
-
 InterruptHandler::InterruptHandler(uint8_t interruptNumber, InterruptManager* interruptManager) {
     this->interruptNumber = interruptNumber;
     this->interruptManager = interruptManager;
