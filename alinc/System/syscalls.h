@@ -22,8 +22,6 @@
 #include <common/types.h>
 #include <astd>
 
-void printf(char*);
-
 namespace asea
 {
     namespace System
@@ -61,8 +59,8 @@ namespace asea
         }
 
         static void kernelPanic(char* message) {
-            asm("cli");
             printf(message);
+            asm("cli");
             while(1);
         }
 
