@@ -70,14 +70,12 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
                 break;
         }
 
-        if(x >= 80)
-        {
+        if(x >= 80) {
             y++;
             x = 0;
         }
 
-        if (y >= 25)
-        {
+        if (y >= 25) {
             for(y = 0; y < 25; y++)
             for(x = 0; x < 80; x++)
             VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | ' ';
