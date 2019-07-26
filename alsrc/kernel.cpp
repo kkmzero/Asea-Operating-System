@@ -26,17 +26,12 @@
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
 //#include <drivers/vga.h>
-#include <System/headers/sysnfo.h>
-#include <System/headers/sysmsgs.h>
-#include <System/cursor.h>
-#include <System/syscalls.h>
+#include <asea.h>
 
 using namespace asea;
 using namespace asea::common;
 using namespace asea::drivers;
 using namespace asea::hwcom;
-using namespace asea::System;
-using namespace asea::System::headers;
 
 
 void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
@@ -145,10 +140,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     cursor_enable(0, 15);
     cursor_update(0, 0);
 
-    AseaSystemInfo sysInfo;
-    AseaSystemMessages sysMsgs;
-
-    sysInfo.AS_PrintSysInfoMsg(SYSINFOMSG_COPYRIGHTVR);
+    AS_PrintSysInfoMsg(SYSINFOMSG_COPYRIGHTVR);
 
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(&gdt);
@@ -173,7 +165,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     printf("\n\n");
     */
 
-    sysMsgs.AS_StatusMsgInf(STATUSMSG_INF_INITIALIZING);
+    AS_StatusMsgInf(STATUSMSG_INF_INITIALIZING);
     DriverManager drvManager;
 
     PrintfKeyboardEventHandler kbhandler;
@@ -188,10 +180,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     PCIController.SelectDrivers(&drvManager, &interrupts);
 
     drvManager.ActivateAll();
-    sysMsgs.AS_StatusMsg(STATUSMSG_OK, "Hardware Initialization\n");
+    AS_StatusMsg(STATUSMSG_OK, "Hardware Initialization\n");
 
     interrupts.Activate();
-    sysMsgs.AS_StatusMsg(STATUSMSG_OK, "Hardware Interrupts\n\n");
+    AS_StatusMsg(STATUSMSG_OK, "Hardware Interrupts\n\n");
 
     while(1);
 }
