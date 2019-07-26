@@ -24,7 +24,7 @@
 
 namespace asea
 {
-    namespace System
+    namespace system
     {
         static void cursor_enable(asea::common::uint8_t cursor_start, asea::common::uint8_t cursor_end) {
             outb(0x3D4, 0x0A);
