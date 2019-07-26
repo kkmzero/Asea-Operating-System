@@ -21,17 +21,17 @@
 
 namespace asea
 {
-	namespace System
-	{
-		namespace headers
-		{
-			#define ASD_AL_VERSION "0.2.2"
-			#define ASD_AL_FULLVER "0.2.2.190713-dev"
-			#define ASD_AL_BUILDVR "(build dev190713)"
-			#define ASD_AS_VERSION "0.12"
+    namespace system
+    {
+        namespace headers
+        {
+            #define ASD_AL_VERSION "0.2.3"
+            #define ASD_AL_FULLVER "0.2.3.190726-dev"
+            #define ASD_AL_BUILDVR "(build dev190726)"
+            #define ASD_AS_VERSION "0.12"
 
-		}
-	}
+        }
+    }
 }
 
 #endif
