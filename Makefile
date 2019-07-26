@@ -18,7 +18,7 @@
 GCCPARAMS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
-VINPARAM = 0.12-dev190713
+VINPARAM = 0.12-dev190726
 
 objects = obj/loader.o \
 	  obj/gdt.o \
@@ -31,8 +31,6 @@ objects = obj/loader.o \
 	  obj/drivers/keyboard.o \
 	  obj/drivers/mouse.o \
 	  obj/drivers/vga.o \
-	  obj/System/sysnfo.o \
-	  obj/System/sysmsgs.o \
 	  obj/kernel.o
 
 obj/%.o: alsrc/%.cpp
@@ -58,7 +56,7 @@ iso: aseakk.bin
 	echo '	multiboot /boot/aseakk.bin' >> iso/boot/grub/grub.cfg
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=asea-$(VINPARAM).iso iso
+	grub-mkrescue --output=Asea-$(VINPARAM).iso iso
 	rm -rf iso
 
 .PHONY: clean checkdeps installdeps install
