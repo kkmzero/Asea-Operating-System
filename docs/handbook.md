@@ -12,7 +12,7 @@
 ## Basics
 Purpose of this project is mainly educational. Asea is not trying to be Unix nor Unix-like opearting system clone. Source code of this operating system should be first and foremost simple and readable.
 ## License
-Asea Operating System and its libraries are lincensed under [GNU General Public License v3.0](./LICENSE).
+Asea Operating System and its libraries are lincensed under [GNU General Public License v3.0](../LICENSE).
 ## Getting Asea
 #### Downloading ISO image
 Currently not available.
