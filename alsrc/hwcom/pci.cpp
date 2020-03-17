@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 - 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -18,6 +18,7 @@
 
 #include <hwcom/pci.h>
 #include <astd>
+#include <system/lists/idspci.list>
 
 using namespace asea::common;
 using namespace asea::drivers;
@@ -38,568 +39,461 @@ PCInterconnectController::~PCInterconnectController() {
 }
 
 uint32_t PCInterconnectController::Read(uint16_t bus, uint16_t device, uint16_t function, uint32_t registeroffset) {
-	uint32_t id =
-	0x1 << 31
-	| ((bus & 0xFF) << 16)
-	| ((device & 0x1F) << 11)
-	| ((function & 0x07) << 8)
-	| (registeroffset & 0xFC);
+    uint32_t id =
+    0x1 << 31
+    | ((bus & 0xFF) << 16)
+    | ((device & 0x1F) << 11)
+    | ((function & 0x07) << 8)
+    | (registeroffset & 0xFC);
 
-	commandPort.Write(id);
-	uint32_t result = dataPort.Read();
+    commandPort.Write(id);
+    uint32_t result = dataPort.Read();
 
-	return result >> (8* (registeroffset % 4));
+    return result >> (8* (registeroffset % 4));
 }
 
 void PCInterconnectController::Write(uint16_t bus, uint16_t device, uint16_t function, uint32_t registeroffset, uint32_t value) {
-	uint32_t id =
-	0x1 << 31
-	| ((bus & 0xFF) << 16)
-	| ((device & 0x1F) << 11)
-	| ((function & 0x07) << 8)
-	| (registeroffset & 0xFC);
+    uint32_t id =
+    0x1 << 31
+    | ((bus & 0xFF) << 16)
+    | ((device & 0x1F) << 11)
+    | ((function & 0x07) << 8)
+    | (registeroffset & 0xFC);
 
-	commandPort.Write(id);
-	dataPort.Write(value);
+    commandPort.Write(id);
+    dataPort.Write(value);
 }
 
-bool PCInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device){
-	return Read(bus, device, 0, 0x0E) & (1<<7);
+bool PCInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device) {
+    return Read(bus, device, 0, 0x0E) & (1<<7);
 }
 
 void PCInterconnectController::SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts) {
-	for(int bus = 0; bus < 8; bus++)
-	{
-		for(int device = 0; device < 32; device++)
-		{
-			int numFunctions = DeviceHasFunctions(bus, device) ? 8 : 1;
-			for(int function =0; function < numFunctions; function++)
-			{
-				PCInterconnectDeviceDescriptor dev = GetDeviceDescriptor(bus, device, function);
+    for(int bus = 0; bus < 8; bus++)
+    {
+        for(int device = 0; device < 32; device++)
+        {
+            int numFunctions = DeviceHasFunctions(bus, device) ? 8 : 1;
+            for(int function =0; function < numFunctions; function++)
+            {
+                PCInterconnectDeviceDescriptor dev = GetDeviceDescriptor(bus, device, function);
 
-				if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
-					continue;
+                if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
+                    continue;
 
-				for(int barNum = 0; barNum < 6; barNum++)
-				{
-					BaseAddressRegister bar = GetBaseAddressRegister(bus, device, function, barNum);
-					if(bar.address && (bar.type == InputOutput))
-						dev.portBase = (uint32_t)bar.address;
+                for(int barNum = 0; barNum < 6; barNum++)
+                {
+                    BaseAddressRegister bar = GetBaseAddressRegister(bus, device, function, barNum);
+                    if(bar.address && (bar.type == InputOutput))
+                        dev.portBase = (uint32_t)bar.address;
 
-					Driver* driver = GetDriver(dev, interrupts);
-					if(driver != 0)
-						driverManager->AddDriver(driver);
-				}
+                    Driver* driver = GetDriver(dev, interrupts);
+                    if(driver != 0)
+                        driverManager->AddDriver(driver);
+                }
 
-				printf("PCI BUS ");
-				printfhex(bus & 0xFF);
+                printf("PCI BUS ");
+                printfhex(bus & 0xFF);
 
-				printf(", DEVICE ");
-				printfhex(device & 0xFF);
+                printf(", DEVICE ");
+                printfhex(device & 0xFF);
 
-				printf(" = VENDOR ");
-				printfhex((dev.vendor_id & 0xFF00) >> 8);
-				printfhex(dev.vendor_id & 0xFF);
+                printf(" = VENDOR ");
+                printfhex((dev.vendor_id & 0xFF00) >> 8);
+                printfhex(dev.vendor_id & 0xFF);
 
-				printf(", DEVICE ");
-				printfhex((dev.device_id & 0xFF00) >> 8);
-				printfhex(dev.device_id & 0xFF);
-				printf("\n");
-			}
-		}
-	}
+                printf(", DEVICE ");
+                printfhex((dev.device_id & 0xFF00) >> 8);
+                printfhex(dev.device_id & 0xFF);
+                printf("\n");
+            }
+        }
+    }
 }
 
 BaseAddressRegister PCInterconnectController::GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar) {
-	BaseAddressRegister result;
+    BaseAddressRegister result;
 
-	uint32_t headertype = Read(bus, device, function, 0x0E) & 0x7F;
-	int maxBARs = 6 - (4*headertype);
-	if(bar >= maxBARs)
-		return result;
+    uint32_t headertype = Read(bus, device, function, 0x0E) & 0x7F;
+    int maxBARs = 6 - (4*headertype);
+    if(bar >= maxBARs)
+        return result;
 
-	uint32_t bar_value = Read(bus, device, function, 0x10 + 4*bar);
-	result.type = (bar_value & 0x1) ? InputOutput : MemoryMapping;
-	uint32_t temp;
+    uint32_t bar_value = Read(bus, device, function, 0x10 + 4*bar);
+    result.type = (bar_value & 0x1) ? InputOutput : MemoryMapping;
+    uint32_t temp;
 
-	if(result.type == MemoryMapping)
-	{
-		switch((bar_value >> 1) & 0x3)
-		{
-			case 0: //32Bit Mode
-			case 1: //20Bit Mode
-			case 2: //64Bit Mode
-				break;
-		}
-		//result.prefetchable = ((bar_value >> 3) & 0x1) == 0x1;
-	}
-	else //InputOutput
-	{
-		result.address = (uint8_t*)(bar_value & ~0x3);
-		result.prefetchable = false;
-	}
+    if(result.type == MemoryMapping)
+    {
+        switch((bar_value >> 1) & 0x3)
+        {
+            case 0: //32Bit Mode
+            case 1: //20Bit Mode
+            case 2: //64Bit Mode
+                break;
+        }
+        //result.prefetchable = ((bar_value >> 3) & 0x1) == 0x1;
+    }
+    else //InputOutput
+    {
+        result.address = (uint8_t*)(bar_value & ~0x3);
+        result.prefetchable = false;
+    }
 
-	return result;
+    return result;
 }
 
 Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
-	switch(dev.vendor_id)
-	{
-		case 0x1022: //Advanced Micro Devices (AMD)
-			switch(dev.device_id) {
-				case 0x2000: //am79c973 (driver?)
-					break;
-			}
-			break;
-
-		case 0x8086: //Intel Corporation
-			break;
-
-		case 0x80EE: //InnoTek Systemberatung GmbH
-			switch(dev.device_id) {
-				case 0xBEEF: //VirtualBox Graphics Adapter
-					break;
-				case 0xCAFE: //VirtualBox Guest Service
-					break;
-			}
-			break;
-	}
-
-	//Class Codes
-	switch(dev.class_id)
-	{
-		case 0x00: //Unclassified
-			switch(dev.subclass_id) {
-				case 0x00: //Non-VGA Compatible devices
-					break;
-
-				case 0x01: //VGA Compatible Device
-					break;
-			}
-			break;
-
-		case 0x01: //Mass Storage Controller
-			switch(dev.subclass_id) {
-				case 0x00: //SCSI Bus Controller
-					break;
-
-				case 0x01: //IDE Controller
-					break;
-
-				case 0x02: //Floppy Disk Controller
-					break;
-
-				case 0x03: //IPI Bus Controller
-					break;
-
-				case 0x04: //RAID Controller
-					break;
-
-				case 0x05: //ATA Controller
-					break;
-
-				case 0x06: //Serial ATA
-					break;
-
-				case 0x07: //Serial Attached SCSI
-					break;
-
-				case 0x08: //Non-Volatile Memory Controller
-					break;
-
-				case 0x80: //Other
-					break;
-			}
-			break;
+    //Vendor IDs and Devices
+    switch(dev.vendor_id)
+    {
+        case PCI_ID_VENDOR_AMD:
+            switch(dev.device_id) {
+                case 0x2000: //am79c973 (driver?)
+                    break;
+            }
+            break;
 
-		case 0x02: //Network Controller
-			switch(dev.subclass_id) {
-				case 0x00: //Ethernet Controller
-					break;
-
-				case 0x01: //Token Ring Controller
-					break;
+        case PCI_ID_VENDOR_INTEL: break;
 
-				case 0x02: //FDDI Controller
-					break;
+        case PCI_ID_VENDOR_INNOTEK:
+            switch(dev.device_id) {
+                case PCI_ID_DEVICE_VBOXGFX: break;
 
-				case 0x03: //ATM Controller
-					break;
+                case PCI_ID_DEVICE_VBOXGUEST: break;
+            }
+            break;
+    }
 
-				case 0x04: //ISDN Controller
-					break;
+    //Class Codes
+    switch(dev.class_id)
+    {
+        case PCI_ID_CLASS_UNCLASSIFIED:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_NONVGA: break;
 
-				case 0x05: //WorldFip Controller
-					break;
+                case PCI_ID_SUBCLASS_VGACMP: break;
+            }
+            break;
 
-				case 0x06: //PICMG 2.14 Multi Computing
-					break;
+        case PCI_ID_CLASS_MSC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_SCSIBC: break;
 
-				case 0x07: //Infiniband Controller
-					break;
+                case PCI_ID_SUBCLASS_IDEC: break;
 
-				case 0x08: //Fabric Controller
-					break;
+                case PCI_ID_SUBCLASS_FDISKC: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_IPIBC: break;
 
-		case 0x03: //Display Controller
-			switch(dev.subclass_id) {
-				case 0x00: //VGA Compatible Controller
-					break;
+                case PCI_ID_SUBCLASS_RAIDC: break;
 
-				case 0x01: //XGA Controller
-					break;
+                case PCI_ID_SUBCLASS_ATAC: break;
 
-				case 0x02: //3D Controller (Not VGA-Compatible)
-					break;
+                case PCI_ID_SUBCLASS_SERIALATA: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_SASCSI: break;
 
-		case 0x04: //Multimedia Controller
-			switch(dev.subclass_id) {
-				case 0x00: //Multimedia Video Controller
-					break;
+                case PCI_ID_SUBCLASS_NVMEMC: break;
 
-				case 0x01: //Multimedia Audio Controller
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x02: //Computer Telephony Device
-					break;
+        case PCI_ID_CLASS_NETC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_ETHERNETC: break;
 
-				case 0x03: //Audio Device
-					break;
+                case PCI_ID_SUBCLASS_TOKENRINGC: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_FDDIC: break;
 
-		case 0x05: //Memory Controller
-			switch(dev.subclass_id) {
-				case 0x00: //RAM Controller
-					break;
+                case PCI_ID_SUBCLASS_ATMC: break;
 
-				case 0x01: //Flash Controller
-					break;
+                case PCI_ID_SUBCLASS_ISDNC: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_WFIPC: break;
 
-		case 0x06: //Bridge Device
-			switch(dev.subclass_id) {
-				case 0x00: //Host Bridge
-					break;
+                case PCI_ID_SUBCLASS_PICMGMC: break;
 
-				case 0x01: //ISA Bridge
-					break;
+                case PCI_ID_SUBCLASS_INFINIBANDC: break;
 
-				case 0x02: //EISA Bridge
-					break;
+                case PCI_ID_SUBCLASS_FABRICC: break;
 
-				case 0x03: //MCA Bridge
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x04: //PCI-to-PCI Bridge
-					break;
+        case PCI_ID_CLASS_DISPLAYC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_VGADCC: break;
 
-				case 0x05: //PCMCIA Bridge
-					break;
+                case PCI_ID_SUBCLASS_XGAC: break;
 
-				case 0x06: //NuBus Bridge
-					break;
+                case PCI_ID_SUBCLASS_3DC: break;
 
-				case 0x07: //CardBus Bridge
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x08: //RACEway Bridge
-					break;
+        case PCI_ID_CLASS_MMEDIAC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_MMEDIAVIDC: break;
 
-				case 0x09: //PCI-to-PCI Bridge
-					break;
+                case PCI_ID_SUBCLASS_MMEDIAAUDC: break;
 
-				case 0x0A: //InfiniBand-to-PCI Host Bridge
-					break;
+                case PCI_ID_SUBCLASS_CTDEVICE: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_AUDIODEVICE: break;
 
-		case 0x07: //Simple Communication Controller
-			switch(dev.subclass_id) {
-				case 0x00: //Serial Controller
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x01: //Parallel Controller
-					break;
+        case PCI_ID_CLASS_MEMORYC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_RAMC: break;
 
-				case 0x02: //Multiport Serial Controller
-					break;
+                case PCI_ID_SUBCLASS_FLASHC: break;
 
-				case 0x03: //Modem
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x04: //IEEE 488.1/2 (GPIB) Controller
-					break;
+        case PCI_ID_CLASS_BRIDGEDEVICE:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_HOSTBRIDGE: break;
 
-				case 0x05: //Smart Card
-					break;
+                case PCI_ID_SUBCLASS_ISABRIDGE: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_EISABRIDGE: break;
 
-		case 0x08: //Base System Peripheral
-			switch(dev.subclass_id) {
-				case 0x00: //PIC
-					break;
+                case PCI_ID_SUBCLASS_MCABRIDGE: break;
 
-				case 0x01: //DMA Controller
-					break;
+                case PCI_ID_SUBCLASS_PCI2PCIB1: break;
 
-				case 0x02: //Timer
-					break;
+                case PCI_ID_SUBCLASS_PCMCIABRIDGE: break;
 
-				case 0x03: //RTC Controller
-					break;
+                case PCI_ID_SUBCLASS_NUBUSBRIDGE: break;
 
-				case 0x04: //PCI Hot-Plug Controller
-					break;
+                case PCI_ID_SUBCLASS_CARDBUSBRIDGE: break;
 
-				case 0x05: //SD Host Controller
-					break;
+                case PCI_ID_SUBCLASS_RACEWAYBRIDGE: break;
 
-				case 0x06: //IOMMU
-					break;
+                case PCI_ID_SUBCLASS_PCI2PCIB2: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_INIFINIB2PCI: break;
 
-		case 0x09: //Input Device Controller
-			switch(dev.subclass_id) {
-				case 0x00: //Keyboard Controller
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x01: //Digitizer Pen
-					break;
+        case PCI_ID_CLASS_SIMPLECOMC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_SERIALC: break;
 
-				case 0x02: //Mouse Controller
-					break;
+                case PCI_ID_SUBCLASS_PARALLELC: break;
 
-				case 0x03: //Scanner Controller
-					break;
+                case PCI_ID_SUBCLASS_MPORTSERIALC: break;
 
-				case 0x04: //Gameport Controller
-					break;
+                case PCI_ID_SUBCLASS_MODEM: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_IEEEGPIBC: break;
 
-		case 0x0A: //Docking Station
-			switch(dev.subclass_id) {
-				case 0x00: //Generic
-					break;
+                case PCI_ID_SUBCLASS_SMARTCARD: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-		case 0x0B: //Processor
-			switch(dev.subclass_id) {
-				case 0x00: //386
-					break;
+        case PCI_ID_CLASS_BSP:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_PIC: break;
 
-				case 0x01: //486
-					break;
+                case PCI_ID_SUBCLASS_DMAC: break;
 
-				case 0x02: //Pentium
-					break;
+                case PCI_ID_SUBCLASS_TIMER: break;
 
-				case 0x10: //Alpha
-					break;
+                case PCI_ID_SUBCLASS_RTCC: break;
 
-				case 0x20: //PowerPC
-					break;
+                case PCI_ID_SUBCLASS_PCIHOTPLUGC: break;
 
-				case 0x30: //MIPS
-					break;
+                case PCI_ID_SUBCLASS_SDHOSTC: break;
 
-				case 0x40: //Co-Processor
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_IOMMU: break;
 
-		case 0x0C: //Serial Bus Controller
-			switch(dev.subclass_id) {
-				case 0x00: //FireWire (IEEE 1394) Controller
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x01: //ACCESS Bus
-					break;
+        case PCI_ID_CLASS_IDEVC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_KBDC: break;
 
-				case 0x02: //SSA
-					break;
+                case PCI_ID_SUBCLASS_DIGITIZERPEN: break;
 
-				case 0x03: //USB Controller
-					break;
+                case PCI_ID_SUBCLASS_MOUSEC: break;
 
-				case 0x04: //Fibre Channel
-					break;
+                case PCI_ID_SUBCLASS_SCANNERC: break;
 
-				case 0x05: //SMBus
-					break;
+                case PCI_ID_SUBCLASS_GAMEPORTC: break;
 
-				case 0x06: //InfiniBand
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x07: //IPMI Interface
-					break;
+        case PCI_ID_CLASS_DOCKINGSTATION:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_DSTATGENERIC: break;
 
-				case 0x08: //SERCOS Interface (IEC 61491)
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x09: //CANbus
-					break;
-			}
-			break;
+        case PCI_ID_CLASS_CPU:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_ARCH386: break;
 
-		case 0x0D: //Wireless Controller
-			switch(dev.subclass_id) {
-				case 0x00: //iRDA Compatible Controller
-					break;
+                case PCI_ID_SUBCLASS_ARCH486: break;
 
-				case 0x01: //Consumer IR Controller
-					break;
+                case PCI_ID_SUBCLASS_ARCHPENTIUM: break;
 
-				case 0x10: //RF Controller
-					break;
+                case PCI_ID_SUBCLASS_ARCHPENTIUMPRO: break;
 
-				case 0x11: //Bluetooth Controller
-					break;
+                case PCI_ID_SUBCLASS_ARCHALPHA: break;
 
-				case 0x12: //Broadband Controller
-					break;
+                case PCI_ID_SUBCLASS_ARCHPOWERPC: break;
 
-				case 0x20: //Ethernet Controller (802.1a)
-					break;
+                case PCI_ID_SUBCLASS_ARCHMIPS: break;
 
-				case 0x21: //Ethernet Controller (802.1b)
-					break;
+                case PCI_ID_SUBCLASS_COPROCESSOR: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+				case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-		case 0x0E: //Intelligent Controller
-			switch(dev.subclass_id) {
-				case 0x00: //I20
-					break;
-			}
-			break;
+        case PCI_ID_CLASS_SERIALBUSC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_FWIEEE1394C: break;
 
-		case 0x0F: //Satellite Communication Controller
-			switch(dev.subclass_id) {
-				case 0x01: //Satellite TV Controller
-					break;
+                case PCI_ID_SUBCLASS_ACCESSBUS: break;
 
-				case 0x02: //Satellite Audio Controller
-					break;
+                case PCI_ID_SUBCLASS_SSA: break;
 
-				case 0x03: //Satellite Voice Controller
-					break;
+                case PCI_ID_SUBCLASS_USBCONTROLLER: break;
 
-				case 0x04: //Satellite Data Controller
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_FIBRECHANNEL: break;
 
-		case 0x10: //Encryption Controller
-			switch(dev.subclass_id) {
-				case 0x00: //Network and Computing Encrpytion/Decryption
-					break;
+                case PCI_ID_SUBCLASS_SMBUS: break;
 
-				case 0x10: //Entertainment Encryption/Decryption
-					break;
+                case PCI_ID_SUBCLASS_SBINFINIBAND: break;
 
-				case 0x80: //Other Encryption/Decryption
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_IPMII: break;
 
-		case 0x11: //Signal Processing Controller
-			switch(dev.subclass_id) {
-				case 0x00: //DPIO Modules
-					break;
+                case PCI_ID_SUBCLASS_SERCOSI: break;
 
-				case 0x01: //Performance Counters
-					break;
+                case PCI_ID_SUBCLASS_CANBUS: break;
 
-				case 0x10: //Communication Synchronizer
-					break;
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-				case 0x20: //Signal Processing Management
-					break;
+        case PCI_ID_CLASS_WIRELESSC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_IRDACC: break;
 
-				case 0x80: //Other
-					break;
-			}
-			break;
+                case PCI_ID_SUBCLASS_CIRC: break;
 
-		case 0x12: //Processing Accelerator
-			break;
+                case PCI_ID_SUBCLASS_RFC: break;
 
-		case 0x13: //Non-Essential Instrumentation
-			break;
+                case PCI_ID_SUBCLASS_BLUETOOTHC: break;
 
-		case 0x14: //0x3F (Reserved)
-			break;
+                case PCI_ID_SUBCLASS_BROADBANDC: break;
 
-		case 0x40: //Co-Processor
-			break;
+                case PCI_ID_SUBCLASS_ETHERNETC8021A: break;
 
-		case 0x41: //0xFE (Reserved)
-			break;
+                case PCI_ID_SUBCLASS_ETHERNETC8021B: break;
 
-		case 0xFF: //Unassigned Class (Vendor specific)
-			break;
-	}
-	//END Class Codes
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
 
-	return 0;
+        case PCI_ID_CLASS_INTELLIGENTC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_ICI20: break;
+            }
+            break;
+
+        case PCI_ID_CLASS_SATELLITECC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_SATTVC: break;
+
+                case PCI_ID_SUBCLASS_SATAUDIOC: break;
+
+                case PCI_ID_SUBCLASS_SATVOICEC: break;
+
+                case PCI_ID_SUBCLASS_SATDATAC: break;
+            }
+            break;
+
+        case PCI_ID_CLASS_ENCRYPTIONC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_NETCEDC: break;
+
+                case PCI_ID_SUBCLASS_EEDC: break;
+
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
+
+        case PCI_ID_CLASS_SIGNALPROCC:
+            switch(dev.subclass_id) {
+                case PCI_ID_SUBCLASS_DPIOMOD: break;
+
+                case PCI_ID_SUBCLASS_PERFCOUNTER: break;
+
+                case PCI_ID_SUBCLASS_COMSYNC: break;
+
+                case PCI_ID_SUBCLASS_SPMAN: break;
+
+                case PCI_ID_SUBCLASS_OTHER: break;
+            }
+            break;
+
+        case PCI_ID_CLASS_PROCACCELERATOR: break;
+
+        case PCI_ID_CLASS_NONEINSTR: break;
+
+        case 0x14: //0x3F (Reserved)
+            break;
+
+        case PCI_ID_CLASS_COPROCESSOR: break;
+
+        case 0x41: //0xFE (Reserved)
+            break;
+
+        case PCI_ID_CLASS_UNASSIGNED: break;
+    }
+
+    return 0;
 }
 
 PCInterconnectDeviceDescriptor PCInterconnectController::GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {
-	PCInterconnectDeviceDescriptor result;
+    PCInterconnectDeviceDescriptor result;
 
-	result.bus = bus;
-	result.device = device;
-	result.function = function;
+    result.bus = bus;
+    result.device = device;
+    result.function = function;
 
-	result.vendor_id = Read(bus, device, function, 0x00);
-	result.device_id = Read(bus, device, function, 0x02);
+    result.vendor_id = Read(bus, device, function, 0x00);
+    result.device_id = Read(bus, device, function, 0x02);
 
-	result.class_id = Read(bus, device, function, 0x0b);
-	result.subclass_id = Read(bus, device, function, 0x0a);
-	result.interface_id = Read(bus, device, function, 0x09);
+    result.class_id = Read(bus, device, function, 0x0b);
+    result.subclass_id = Read(bus, device, function, 0x0a);
+    result.interface_id = Read(bus, device, function, 0x09);
 
-	result.revision = Read(bus, device, function, 0x08);
-	result.interrupt = Read(bus, device, function, 0x3c);
+    result.revision = Read(bus, device, function, 0x08);
+    result.interrupt = Read(bus, device, function, 0x3c);
 
-	return result;
+    return result;
 }
