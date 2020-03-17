@@ -1,5 +1,5 @@
 # This file is part of Asea OS.
-# Copyright (C) 2018 - 2019 Ivan Kmeťo
+# Copyright (C) 2018 - 2020 Ivan Kmeťo
 #
 # Asea OS is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -18,7 +18,7 @@
 GCCPARAMS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
-VINPARAM = 0.12-dev190726
+VINPARAM = 0.12-dev200317
 
 objects = obj/loader.o \
 	  obj/gdt.o \
@@ -61,7 +61,7 @@ iso: aseakk.bin
 
 .PHONY: clean checkdeps installdeps install
 clean:
-	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
+	rm -rf obj aseakk.bin Asea-$(VINPARAM).iso
 
 checkdeps:
 	@echo "\033[1;33m[1/7] GCC\033[0m"
