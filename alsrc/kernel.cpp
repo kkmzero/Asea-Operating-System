@@ -34,6 +34,13 @@ using namespace asea::drivers;
 using namespace asea::hwcom;
 
 
+void clearscreen() {
+    static uint16_t* VideoMemory = (uint16_t*)0xb8000;
+    for(int y = 0; y < 25; y++)
+        for(int x = 0; x < 80; x++)
+            VideoMemory[80*y+x] = ((0x00 << 4) | 0x0F) << 8 | ' ';
+}
+
 void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
     static uint8_t x = 0, y = 0;
@@ -137,6 +144,7 @@ extern "C" void callConstructors() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
+    clearscreen();
     cursor_disable();
     cursor_enable(0, 15);
     cursor_update(0, 0);
