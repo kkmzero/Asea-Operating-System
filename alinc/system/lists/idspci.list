@@ -1,0 +1,166 @@
+/*
+ * This file is part of Asea OS.
+ * Copyright (C) 2020 Ivan Kmeťo
+ *
+ * Asea OS is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * Asea OS is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Asea OS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//Vendor IDs
+#define PCI_ID_VENDOR_AMD                 0x1022    //Advanced Micro Devices (AMD)
+#define PCI_ID_VENDOR_INTEL               0x8086    //Intel Corporation
+#define PCI_ID_VENDOR_INNOTEK             0x80EE    //InnoTek Systemberatung GmbH
+
+//Device IDs
+#define PCI_ID_DEVICE_VBOXGFX             0xBEEF    //VirtualBox Graphics Adapter
+#define PCI_ID_DEVICE_VBOXGUEST           0xCAFE    //VirtualBox Guest Service
+
+//Class Codes
+#define PCI_ID_CLASS_UNCLASSIFIED         0x00      //Unclassified
+#define PCI_ID_CLASS_MSC                  0x01      //Mass Storage Controller
+#define PCI_ID_CLASS_NETC                 0x02      //Network Controller
+#define PCI_ID_CLASS_DISPLAYC             0x03      //Display Controller
+#define PCI_ID_CLASS_MMEDIAC              0x04      //Multimedia Controller
+#define PCI_ID_CLASS_MEMORYC              0x05      //Memory Controller
+#define PCI_ID_CLASS_BRIDGEDEVICE         0x06      //Bridge Device
+#define PCI_ID_CLASS_SIMPLECOMC           0x07      //Simple Communication Controller
+#define PCI_ID_CLASS_BSP                  0x08      //Base System Peripheral
+#define PCI_ID_CLASS_IDEVC                0x09      //Input Device Controller
+#define PCI_ID_CLASS_DOCKINGSTATION       0x0A      //Docking Station
+#define PCI_ID_CLASS_CPU                  0x0B      //Processor
+#define PCI_ID_CLASS_SERIALBUSC           0x0C      //Serial Bus Controller
+#define PCI_ID_CLASS_WIRELESSC            0x0D      //Wireless Controller
+#define PCI_ID_CLASS_INTELLIGENTC         0x0E      //Intelligent Controller
+#define PCI_ID_CLASS_SATELLITECC          0x0F      //Satellite Communication Controller
+#define PCI_ID_CLASS_ENCRYPTIONC          0x10      //Encryption Controller
+#define PCI_ID_CLASS_SIGNALPROCC          0x11      //Signal Processing Controller
+#define PCI_ID_CLASS_PROCACCELERATOR      0x12      //Processing Accelerator
+#define PCI_ID_CLASS_NONEINSTR            0x13      //Non-Essential Instrumentation
+#define PCI_ID_CLASS_COPROCESSOR          0x40      //Co-Processor
+#define PCI_ID_CLASS_UNASSIGNED           0xFF      //Unassigned Class (Vendor specific)
+
+//Subclasses
+#define PCI_ID_SUBCLASS_NONVGA            0x00      //Non-VGA Compatible devices
+#define PCI_ID_SUBCLASS_VGACMP            0x01      //VGA Compatible Device
+
+#define PCI_ID_SUBCLASS_SCSIBC            0x00      //SCSI Bus Controller
+#define PCI_ID_SUBCLASS_IDEC              0x01      //IDE Controller
+#define PCI_ID_SUBCLASS_FDISKC            0x02      //Floppy Disk Controller
+#define PCI_ID_SUBCLASS_IPIBC             0x03      //IPI Bus Controller
+#define PCI_ID_SUBCLASS_RAIDC             0x04      //RAID Controller
+#define PCI_ID_SUBCLASS_ATAC              0x05      //ATA Controller
+#define PCI_ID_SUBCLASS_SERIALATA         0x06      //Serial ATA
+#define PCI_ID_SUBCLASS_SASCSI            0x07      //Serial Attached SCSI
+#define PCI_ID_SUBCLASS_NVMEMC            0x08      //Non-Volatile Memory Controller
+
+#define PCI_ID_SUBCLASS_ETHERNETC         0x00      //Ethernet Controller
+#define PCI_ID_SUBCLASS_TOKENRINGC        0x01      //Token Ring Controller
+#define PCI_ID_SUBCLASS_FDDIC             0x02      //FDDI Controller
+#define PCI_ID_SUBCLASS_ATMC              0x03      //ATM Controller
+#define PCI_ID_SUBCLASS_ISDNC             0x04      //ISDN Controller
+#define PCI_ID_SUBCLASS_WFIPC             0x05      //WorldFip Controller
+#define PCI_ID_SUBCLASS_PICMGMC           0x06      //PICMG 2.14 Multi Computing
+#define PCI_ID_SUBCLASS_INFINIBANDC       0x07      //Infiniband Controller
+#define PCI_ID_SUBCLASS_FABRICC           0x08      //Fabric Controller
+
+#define PCI_ID_SUBCLASS_VGADCC            0x00      //VGA Compatible Controller
+#define PCI_ID_SUBCLASS_XGAC              0x01      //XGA Controller
+#define PCI_ID_SUBCLASS_3DC               0x02      //3D Controller (Not VGA-Compatible)
+
+#define PCI_ID_SUBCLASS_MMEDIAVIDC        0x00      //Multimedia Video Controller
+#define PCI_ID_SUBCLASS_MMEDIAAUDC        0x01      //Multimedia Audio Controller
+#define PCI_ID_SUBCLASS_CTDEVICE          0x02      //Computer Telephony Device
+#define PCI_ID_SUBCLASS_AUDIODEVICE       0x03      //Audio Device
+
+#define PCI_ID_SUBCLASS_RAMC              0x00      //RAM Controller
+#define PCI_ID_SUBCLASS_FLASHC            0x01      //Flash Controller
+
+#define PCI_ID_SUBCLASS_HOSTBRIDGE        0x00      //Host Bridge
+#define PCI_ID_SUBCLASS_ISABRIDGE         0x01      //ISA Bridge
+#define PCI_ID_SUBCLASS_EISABRIDGE        0x02      //EISA Bridge
+#define PCI_ID_SUBCLASS_MCABRIDGE         0x03      //MCA Bridge
+#define PCI_ID_SUBCLASS_PCI2PCIB1         0x04      //PCI-to-PCI Bridge
+#define PCI_ID_SUBCLASS_PCMCIABRIDGE      0x05      //PCMCIA Bridge
+#define PCI_ID_SUBCLASS_NUBUSBRIDGE       0x06      //NuBus Bridge
+#define PCI_ID_SUBCLASS_CARDBUSBRIDGE     0x07      //CardBus Bridge
+#define PCI_ID_SUBCLASS_RACEWAYBRIDGE     0x08      //RACEway Bridge
+#define PCI_ID_SUBCLASS_PCI2PCIB2         0x09      //PCI-to-PCI Bridge
+#define PCI_ID_SUBCLASS_INIFINIB2PCI      0x0A      //InfiniBand-to-PCI Host Bridge
+
+#define PCI_ID_SUBCLASS_SERIALC           0x00      //Serial Controller
+#define PCI_ID_SUBCLASS_PARALLELC         0x01      //Parallel Controller
+#define PCI_ID_SUBCLASS_MPORTSERIALC      0x02      //Multiport Serial Controller
+#define PCI_ID_SUBCLASS_MODEM             0x03      //Modem
+#define PCI_ID_SUBCLASS_IEEEGPIBC         0x04      //IEEE 488.1/2 (GPIB) Controller
+#define PCI_ID_SUBCLASS_SMARTCARD         0x05      //Smart Card
+
+#define PCI_ID_SUBCLASS_PIC               0x00      //PIC
+#define PCI_ID_SUBCLASS_DMAC              0x01      //DMA Controller
+#define PCI_ID_SUBCLASS_TIMER             0x02      //Timer
+#define PCI_ID_SUBCLASS_RTCC              0x03      //RTC Controller
+#define PCI_ID_SUBCLASS_PCIHOTPLUGC       0x04      //PCI Hot-Plug Controller
+#define PCI_ID_SUBCLASS_SDHOSTC           0x05      //SD Host Controller
+#define PCI_ID_SUBCLASS_IOMMU             0x06      //IOMMU
+
+#define PCI_ID_SUBCLASS_KBDC              0x00      //Keyboard Controller
+#define PCI_ID_SUBCLASS_DIGITIZERPEN      0x01      //Digitizer Pen
+#define PCI_ID_SUBCLASS_MOUSEC            0x02      //Mouse Controller
+#define PCI_ID_SUBCLASS_SCANNERC          0x03      //Scanner Controller
+#define PCI_ID_SUBCLASS_GAMEPORTC         0x04      //Gameport Controller
+
+#define PCI_ID_SUBCLASS_DSTATGENERIC      0x00      //Generic
+
+#define PCI_ID_SUBCLASS_ARCH386           0x00      //386
+#define PCI_ID_SUBCLASS_ARCH486           0x01      //486
+#define PCI_ID_SUBCLASS_ARCHPENTIUM       0x02      //Pentium
+#define PCI_ID_SUBCLASS_ARCHPENTIUMPRO    0x03      //Pentium Pro
+#define PCI_ID_SUBCLASS_ARCHALPHA         0x10      //Alpha
+#define PCI_ID_SUBCLASS_ARCHPOWERPC       0x20      //PowerPC
+#define PCI_ID_SUBCLASS_ARCHMIPS          0x30      //MIPS
+#define PCI_ID_SUBCLASS_COPROCESSOR       0x40      //Co-Processor
+
+#define PCI_ID_SUBCLASS_FWIEEE1394C       0x00      //FireWire (IEEE 1394) Controller
+#define PCI_ID_SUBCLASS_ACCESSBUS         0x01      //ACCESS Bus
+#define PCI_ID_SUBCLASS_SSA               0x02      //SSA
+#define PCI_ID_SUBCLASS_USBCONTROLLER     0x03      //USB Controller
+#define PCI_ID_SUBCLASS_FIBRECHANNEL      0x04      //Fibre Channel
+#define PCI_ID_SUBCLASS_SMBUS             0x05      //SMBus
+#define PCI_ID_SUBCLASS_SBINFINIBAND      0x06      //InfiniBand
+#define PCI_ID_SUBCLASS_IPMII             0x07      //IPMI Interface
+#define PCI_ID_SUBCLASS_SERCOSI           0x08      //SERCOS Interface (IEC 61491)
+#define PCI_ID_SUBCLASS_CANBUS            0x09      //CANbus
+
+#define PCI_ID_SUBCLASS_IRDACC            0x00      //iRDA Compatible Controller
+#define PCI_ID_SUBCLASS_CIRC              0x01      //Consumer IR Controller
+#define PCI_ID_SUBCLASS_RFC               0x10      //RF Controller
+#define PCI_ID_SUBCLASS_BLUETOOTHC        0x11      //Bluetooth Controller
+#define PCI_ID_SUBCLASS_BROADBANDC        0x12      //Broadband Controller
+#define PCI_ID_SUBCLASS_ETHERNETC8021A    0x20      //Ethernet Controller (802.1a)
+#define PCI_ID_SUBCLASS_ETHERNETC8021B    0x21      //Ethernet Controller (802.1b)
+
+#define PCI_ID_SUBCLASS_ICI20             0x00      //I20
+
+#define PCI_ID_SUBCLASS_SATTVC            0x01      //Satellite TV Controller
+#define PCI_ID_SUBCLASS_SATAUDIOC         0x02      //Satellite Audio Controller
+#define PCI_ID_SUBCLASS_SATVOICEC         0x03      //Satellite Voice Controller
+#define PCI_ID_SUBCLASS_SATDATAC          0x04      //Satellite Data Controller
+
+#define PCI_ID_SUBCLASS_NETCEDC           0x00      //Network and Computing Encrpytion/Decryption
+#define PCI_ID_SUBCLASS_EEDC              0x10      //Entertainment Encryption/Decryption
+
+#define PCI_ID_SUBCLASS_DPIOMOD           0x00      //DPIO Modules
+#define PCI_ID_SUBCLASS_PERFCOUNTER       0x01      //Performance Counters
+#define PCI_ID_SUBCLASS_COMSYNC           0x10      //Communication Synchronizer
+#define PCI_ID_SUBCLASS_SPMAN             0x20      //Signal Processing Management
+
+#define PCI_ID_SUBCLASS_OTHER             0x80      //Other
