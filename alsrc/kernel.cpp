@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 - 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -38,8 +38,9 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
     static uint8_t x = 0, y = 0;
     uint8_t text_color = ((bgcolor & 0x0F) << 4) | (forecolor & 0x0F);
+    uint8_t clear_color = (0x00 << 4) | 0x0F;
 
-    for(int i = 0; str[i] != '\0'; ++i)
+    for(int i = 0; str[i] != '\0'; i++)
     {
         switch(str[i])
         {
@@ -56,11 +57,11 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
                 else {
                     x -= 1;
                 }
-                VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | ' ';
+                VideoMemory[80*y+x] = clear_color << 8 | ' ';
                 break;
 
             default:
-                VideoMemory[80*y+x] = (VideoMemory[80*y+x] & (text_color << 8)) | str[i];
+                VideoMemory[80*y+x] = text_color << 8 | str[i];
                 x++;
                 break;
         }
@@ -73,7 +74,7 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
         if (y >= 25) {
             for(y = 0; y < 25; y++)
             for(x = 0; x < 80; x++)
-            VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | ' ';
+            VideoMemory[80*y+x] = clear_color << 8 | ' ';
 
             x = 0;
             y = 0;
