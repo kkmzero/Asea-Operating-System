@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 - 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -43,14 +43,16 @@ namespace asea
 
 
             static void AS_StatusMsg(STATUS_MSG_ID statusmsg_id, char* description) {
+                printf("[");
                 switch(statusmsg_id) {
-                    case STATUSMSG_NONE: break;
-                    case STATUSMSG_OK: printf("[OK] "); break;
-                    case STATUSMSG_FAILED: printf("[FAILED] "); break;
-                    case STATUSMSG_ABORT: printf("[ABORT] "); break;
-                    case STATUSMSG_WARNING: printf("[WARNING] "); break;
-                    case STATUSMSG_ERROR: printf("[ERROR] "); break;
+                    case STATUSMSG_NONE: printf("*", 0x07); break;
+                    case STATUSMSG_OK: printf("OK", 0x0A); break;
+                    case STATUSMSG_FAILED: printf("FAILED", 0x0C); break;
+                    case STATUSMSG_ABORT: printf("ABORT", 0x0E); break;
+                    case STATUSMSG_WARNING: printf("WARNING", 0x0D); break;
+                    case STATUSMSG_ERROR: printf("ERROR", 0x0C); break;
                 }
+                printf("] ");
                 printf(description);
             }
 
