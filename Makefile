@@ -56,12 +56,12 @@ iso: aseakk.bin
 	echo '	multiboot /boot/aseakk.bin' >> iso/boot/grub/grub.cfg
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=Asea-$(VINPARAM).iso iso
+	grub-mkrescue --output=asea-$(VINPARAM).iso iso
 	rm -rf iso
 
 .PHONY: clean checkdeps installdeps install
 clean:
-	rm -rf obj aseakk.bin Asea-$(VINPARAM).iso
+	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
 
 checkdeps:
 	@echo "\033[1;33m[1/7] GCC\033[0m"
