@@ -154,6 +154,8 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
             }
             break;
 
+        case PCI_ID_VENDOR_APPLE: break;
+
         case PCI_ID_VENDOR_INTEL: break;
 
         case PCI_ID_VENDOR_INNOTEK:
@@ -163,6 +165,8 @@ Driver* PCInterconnectController::GetDriver(PCInterconnectDeviceDescriptor dev, 
                 case PCI_ID_DEVICE_VBOXGUEST: break;
             }
             break;
+
+        case PCI_ID_VENDOR_REALTEK: break;
     }
 
     //Class Codes
