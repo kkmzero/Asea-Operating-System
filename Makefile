@@ -64,37 +64,36 @@ clean:
 	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
 
 checkdeps:
-	@echo "\033[1;33m[1/7] GCC\033[0m"
-	@echo "\033[1;36mRecommended GCC 6.3.0\033[0m"
-	@gcc --version
-
+	@echo "\033[1;33m[1/7] G++\033[0m"
+	@echo "\033[1;36mRecommended G++ 8.3.0\033[0m"
+	@g++ --version
 	@echo "\033[1;33m[2/7] Binutils: GNU linker\033[0m"
-	@echo "\033[1;36mRecommended GNU Binutils 2.28\033[0m"
+	@echo "\033[1;36mRecommended GNU Binutils 2.31.1\033[0m"
 	@ld --version
 	@echo "\n"
 	@echo "\033[1;33m[3/7] Binutils: GNU assembler\033[0m"
-	@echo "\033[1;36mRecommended GNU Binutils 2.28\033[0m"
+	@echo "\033[1;36mRecommended GNU Binutils 2.31.1\033[0m"
 	@as --version
 	@echo "\n"
 	@echo "\033[1;33m[4/7] libc6-dev-i386\033[0m"
-	@echo "\033[1;36mRecommended libc6-dev-i386 2.24-11 \033[0m"
-	@dpkg -l libc6-dev-i386
+	@echo "\033[1;36mRecommended libc6-dev-i386 2.28-10 \033[0m"
+	@dpkg -l | grep libc6-dev-i386
 	@echo "\n"
 	@echo "\033[1;33m[5/7] GRUB Legacy\033[0m"
-	@echo "\033[1;36mRecommended grub-legacy 0.97-72 \033[0m"
-	@dpkg -l grub-legacy
+	@echo "\033[1;36mRecommended grub-legacy 0.97-75 \033[0m"
+	@dpkg -l | grep grub-legacy
 	@echo "\n"
 	@echo "\033[1;33m[6/7] grub-pc-bin\033[0m"
-	@echo "\033[1;36mRecommended grub-pc-bin 2.02~beta3-5 \033[0m"
-	@dpkg -l grub-pc-bin
+	@echo "\033[1;36mRecommended grub-pc-bin 2.02+dfsg1-20 \033[0m"
+	@dpkg -l | grep grub-pc-bin
 	@echo "\n"
 	@echo "\033[1;33m[7/7] xorriso\033[0m"
-	@echo "\033[1;36mRecommended xorriso 1.4.6 \033[0m"
+	@echo "\033[1;36mRecommended xorriso 1.5.0 \033[0m"
 	@xorriso --version
 
 installdeps:
-	@echo "\033[1;33m[1/6] Check & Install: GCC\033[0m"
-	@sudo apt-get install gcc
+	@echo "\033[1;33m[1/6] Check & Install: G++\033[0m"
+	@sudo apt-get install g++
 	@echo "\033[1;33m[2/6] Check & Install: Binutils\033[0m"
 	@sudo apt-get install binutils
 	@echo "\033[1;33m[3/6] Check & Install: libc6-dev-i386\033[0m"
