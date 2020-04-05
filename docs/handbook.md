@@ -21,13 +21,13 @@ Currently not available.
 For compiling Asea OS, the following is recommended (required*):
 
 1. Linux-based operating system
-2. GNU Make 4.1*
-3. GCC/G++ 6.3.0
-4. GNU Binutils 2.28 (GNU Linker + GNU assembler)
-5. libc6-dev-i386 2.24-11
-6. GRUB Legacy 0.97-72
-7. grub-pc-bin 2.02~beta3-5
-8. xorriso 1.4.6
+2. GNU Make 4.2.1*
+3. GCC/G++ 8.3.0
+4. GNU Binutils 2.31.1 (GNU Linker + GNU assembler)
+5. libc6-dev-i386 2.28-10
+6. GRUB Legacy 0.97-75
+7. grub-pc-bin 2.02+dfsg1-20
+8. xorriso 1.5.0
 
 **Note:** You can use Makefile's commands `make checkdeps` or `make installdeps` to do this process faster.
 Programming environment for Asea OS is currently set up on Debian GNU/Linux distribution, which may cause issues on other Linux distributions due to dependency on `apt` and exact names of packages in its repository.
