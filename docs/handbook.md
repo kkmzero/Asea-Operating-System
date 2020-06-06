@@ -38,9 +38,10 @@ Everyone is free to contribute to Asea OS and any help is welcomed. Please consi
 #### Future plans and WIP:
 1. Multitasking and CLI/Shell
 2. Moving from 32bit processor architecture support to 64bit (x86_64)
-3. Improvements of libraries
-4. Fixes of bugs and known issues
-5. Documentation
+3. Full VGA 640x480x16 support
+4. Improvements of libraries
+5. Fixes of bugs and known issues
+6. Documentation
 
 ## Documentation
 Currently not available.
