@@ -16,6 +16,8 @@
  * Asea OS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//#define VGA_ENABLED
+
 #include <common/types.h>
 #include <astd>
 #include <gdt.h>
@@ -25,7 +27,11 @@
 #include <drivers/driver.h>
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
-//#include <drivers/vga.h>
+
+#ifdef VGA_ENABLED
+    #include <drivers/vga.h>
+#endif
+
 #include <asea.h>
 
 using namespace asea;
@@ -193,6 +199,14 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 
     interrupts.Activate();
     AS_StatusMsg(STATUSMSG_OK, "Hardware Interrupts\n\n");
+    
+    #ifdef VGA_ENABLED
+    VideoGraphicsArray vga;
+    vga.SetMode(320,200,8);
+    for(int32_t y = 0; y < 200; y++)
+        for(int32_t x = 0; x < 320; x++)
+            vga.PutPixel(x, y, 0xFF, 0xFF, 0x55);
+    #endif
 
     while(1);
 }
