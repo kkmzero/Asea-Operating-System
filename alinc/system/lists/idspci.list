@@ -19,6 +19,7 @@
 //Vendor IDs
 #define PCI_ID_VENDOR_AMD                 0x1022    //Advanced Micro Devices (AMD)
 #define PCI_ID_VENDOR_APPLE               0x106B    //Apple Inc.
+#define PCI_ID_VENDOR_REDHAT_VIRTIO       0x1AF4    //Red Hat, Inc. (prev. Qumranet, Inc.)
 #define PCI_ID_VENDOR_INTEL               0x8086    //Intel Corporation
 #define PCI_ID_VENDOR_INNOTEK             0x80EE    //InnoTek Systemberatung GmbH
 #define PCI_ID_VENDOR_REALTEK             0x10EC    //Realtek Semiconductor Co., Ltd.
