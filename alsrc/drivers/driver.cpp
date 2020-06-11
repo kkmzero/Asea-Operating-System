@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -17,6 +17,7 @@
  */
 
 #include <drivers/driver.h>
+#include <asea.h>
 
 using namespace asea::drivers;
 
@@ -30,22 +31,23 @@ void Driver::Activate() {
 }
 
 int Driver::Reset() {
-	return 0;
+    return 0;
 }
 
 void Driver::Deactivate() {
 }
 
 DriverManager::DriverManager() {
-	numDrivers = 0;
+    numDrivers = 0;
 }
 
 void DriverManager::AddDriver(Driver* drv) {
-	drivers[numDrivers] = drv;
-	numDrivers++;
+    drivers[numDrivers] = drv;
+    numDrivers++;
 }
 
 void DriverManager::ActivateAll() {
-	for(int i = 0; i < numDrivers; i++)
-		drivers[i]->Activate();
+    for(int i = 0; i < numDrivers; i++)
+        drivers[i]->Activate();
+    AS_StatusMsg(STATUSMSG_OK, "Activate Drivers\n");
 }
