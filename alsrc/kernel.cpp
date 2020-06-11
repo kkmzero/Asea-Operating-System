@@ -70,11 +70,11 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
                 else {
                     x -= 1;
                 }
-                VideoMemory[80*y+x] = clear_color << 8 | ' ';
+                VideoMemory[80*y+x] = clear_color << 8 | (uint8_t)' ';
                 break;
 
             default:
-                VideoMemory[80*y+x] = text_color << 8 | str[i];
+                VideoMemory[80*y+x] = text_color << 8 | (uint8_t)str[i];
                 x++;
                 break;
         }
@@ -87,7 +87,7 @@ void _sysprintf(char* str, uint8_t bgcolor, uint8_t forecolor) {
         if (y >= 25) {
             for(y = 0; y < 25; y++)
             for(x = 0; x < 80; x++)
-            VideoMemory[80*y+x] = clear_color << 8 | ' ';
+            VideoMemory[80*y+x] = clear_color << 8 | (uint8_t)' ';
 
             x = 0;
             y = 0;
@@ -205,7 +205,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     vga.SetMode(320,200,8);
     for(int32_t y = 0; y < 200; y++)
         for(int32_t x = 0; x < 320; x++)
-            vga.PutPixel(x, y, 0xFF, 0xFF, 0x55);
+            vga.PutPixel(x, y, 0xFF, 0xFF, 0xFF);
     #endif
 
     while(1);
