@@ -195,10 +195,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     PCIController.SelectDrivers(&drvManager, &interrupts);
 
     drvManager.ActivateAll();
-    AS_StatusMsg(STATUSMSG_OK, "Hardware Initialization\n");
 
     interrupts.Activate();
-    AS_StatusMsg(STATUSMSG_OK, "Hardware Interrupts\n\n");
+    
+    printf("\n");
     
     #ifdef VGA_ENABLED
     VideoGraphicsArray vga;
