@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 - 2019 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -57,6 +57,16 @@ void KeyboardDriver::Activate() {
     dataport.Write(0xF4);
 }
 
+void kbd_ack() {
+    while(!(inb(0x60)==0xFA));
+}
+
+void kbd_handle_led(uint8_t status) {
+    outb(0x60,0xED);
+    kbd_ack();
+    outb(0x60,status);
+}
+
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
     uint8_t key = dataport.Read();
 
@@ -65,7 +75,15 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 
         switch(key)
         {
-            case 0xFA: break;
+            //Response Byte
+            case 0x00: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
+            //case 0xAA: printf(" STP ",0x0C); break; //Self-Test Passed
+            case 0xEE: printf("ECHO",0x0C); break;    //Response to Echo command
+            case 0xFA: printf("ACK",0x0C); break;     //Command Acknowledged (ACK)
+            case 0xFC: printf("FAIL",0x0C); break;    //Self-Test Failed
+            case 0xFD: printf("FAIL",0x0C); break;    //Self-Test Failed
+            case 0xFE: printf("RESEND",0x0C); break;  //Repeat Last command send
+            case 0xFF: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
 
             //---KEYMAPPING---
             case 0x01: break; //ESCAPE pressed
@@ -139,7 +157,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0xB6: Uppercase = !Uppercase; break; //RIGHT SHIFT released
             //END SHIFT
 
-            case 0x3A: Uppercase = !Uppercase; break; //CAPSLOCK pressed
+            case 0x3A: Uppercase = !Uppercase; /*kbd_handle_led(0x02);*/ break; //CAPSLOCK pressed
 
             case 0x3B: break; //F1 pressed
             case 0x3C: break; //F2 pressed
@@ -259,6 +277,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0xD1: break; //Numpad: 3 released
             case 0xD2: break; //Numpad: 0 released
             case 0xD3: break; //Numpad: . released
+            case 0xD6: break; //AltBackslash released
             case 0xD7: break; //F11 released
             case 0xD8: break; //F12 released
 
@@ -268,17 +287,12 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 
             //---END KEYMAPPING---
 
-        default:
-        if(key < 0x80)
-        {
-            {
-                    printf("UNHANDLED INTERRUPT KEYBOARD0x");
-                    printfhex(key);
+            default:
+                printf("UNHANDLED INTERRUPT KEYBOARD 0x");
+                printfhex(key);
                 break;
             }
-        }
 
-    }
 
     return esp;
 }
