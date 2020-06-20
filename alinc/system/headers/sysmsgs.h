@@ -20,6 +20,7 @@
 #define __ASEA__SYSTEM__HEADERS__SYSMSGS_H
 
 #include <common/types.h>
+#include <astd>
 
 namespace asea
 {
@@ -33,7 +34,8 @@ namespace asea
                 STATUSMSG_FAILED = 0x02,
                 STATUSMSG_ABORT = 0x03,
                 STATUSMSG_WARNING = 0x04,
-                STATUSMSG_ERROR = 0x05
+                STATUSMSG_ERROR = 0x05,
+                STATUSMSG_INIT = 0x06
             };
 
             enum STATUS_MSG_INF_ID : asea::common::uint8_t {
@@ -51,6 +53,7 @@ namespace asea
                     case STATUSMSG_ABORT: printf("ABORT", 0x0E); break;
                     case STATUSMSG_WARNING: printf("WARNING", 0x0D); break;
                     case STATUSMSG_ERROR: printf("ERROR", 0x0C); break;
+                    case STATUSMSG_INIT: printf("INIT", 0x07); break;
                 }
                 printf("] ");
                 printf(description);
