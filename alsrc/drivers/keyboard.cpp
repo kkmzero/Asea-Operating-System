@@ -25,6 +25,7 @@ using namespace asea::hwcom;
 
 static bool Uppercase = false;
 
+
 KeyboardEventHandler::KeyboardEventHandler() {
 }
 
@@ -86,6 +87,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0xFF: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
 
             //---KEYMAPPING---
+            case 0xE0: printf(" 0xE0 "); break; //Media Key Flag
             case 0x01: break; //ESCAPE pressed
 
             case 0x02: if(Uppercase) handler->OnKeyDown('!'); else handler->OnKeyDown('1'); break;
@@ -283,7 +285,6 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
 
             //TODO: CIV
             case 0x56: if(Uppercase) handler->OnKeyDown('|'); else handler->OnKeyDown('\\'); break;
-            case 0xE0: break; //TODO: Media key flag
 
             //---END KEYMAPPING---
 
