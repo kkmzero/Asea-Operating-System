@@ -89,7 +89,11 @@ void VideoGraphicsArray::WriteRegisters(uint8_t* registers)
 bool VideoGraphicsArray::SupportsMode(uint32_t width, uint32_t height, uint32_t colordepth)
 {
     if(width == 320 && height == 200 && colordepth == 8) {
-        AS_StatusMsg(STATUSMSG_OK, "VGA Mode set 320x200x256");
+        AS_StatusMsg(STATUSMSG_OK, "VGA Mode set 320x200x256\n");
+        return true;
+    }
+    else if(width == 640 && height == 480 && colordepth == 16) {
+        AS_StatusMsg(STATUSMSG_OK, "VGA Mode set 640x480x16\n");
         return true;
     }
     else {
