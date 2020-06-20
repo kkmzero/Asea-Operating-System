@@ -103,6 +103,10 @@ class PrintfKeyboardEventHandler : public KeyboardEventHandler
         {
             putchar(c);
         }
+        
+        void OnKeyUp(char u)
+        {
+        }
 };
 
 class MouseToConsole : public MouseEventHandler
@@ -193,12 +197,6 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 
     PCInterconnectController PCIController;
     PCIController.SelectDrivers(&drvManager, &interrupts);
-
-    drvManager.ActivateAll();
-
-    interrupts.Activate();
-    
-    printf("\n");
     
     #ifdef VGA_ENABLED
     VideoGraphicsArray vga;
@@ -207,6 +205,13 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
         for(int32_t x = 0; x < 320; x++)
             vga.PutPixel(x, y, 0xFF, 0xFF, 0xFF);
     #endif
+
+    drvManager.ActivateAll();
+
+    interrupts.Activate();
+    
+    printf("\n");
+    
 
     while(1);
 }
