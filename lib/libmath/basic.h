@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2019 Ivan Kmeťo
+ * Copyright (C) 2019 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -20,19 +20,19 @@
 #define __ASEA__LIB__MATH__BASIC_H
 
 
-//
-template<typename T>
-T min(T a, T b){
-    return (b < a) ? b : a;
-}
-
-//
+//Returns the greater of the given values
 template<typename T>
 T max(T a, T b){
     return (a < b) ? b : a;
 }
 
-//
+//Returns the smaller of the given values.
+template<typename T>
+T min(T a, T b){
+    return (b < a) ? b : a;
+}
+
+//Returns the absolute value of parameter val.
 template<typename T>
 T abs(T value){
     return (value < 0) ? -value : value;
