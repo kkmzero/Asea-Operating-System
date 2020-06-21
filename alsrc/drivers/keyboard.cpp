@@ -24,6 +24,8 @@ using namespace asea::drivers;
 using namespace asea::hwcom;
 
 static bool Uppercase = false;
+static bool NumLock = false;
+static bool media_key = false;
 
 
 KeyboardEventHandler::KeyboardEventHandler() {
@@ -59,13 +61,19 @@ void KeyboardDriver::Activate() {
 }
 
 void kbd_ack() {
-    while(!(inb(0x60)==0xFA));
+    while(!(inb(0x60) == 0xFA));
 }
 
 void kbd_handle_led(uint8_t status) {
-    outb(0x60,0xED);
+    outb(0x60, 0xED);
     kbd_ack();
-    outb(0x60,status);
+    outb(0x60, status);
+}
+
+void key_toggle() { //[!] TESTING
+    outb(0x60, 0xF5);
+    kbd_ack();
+    outb(0x60, 0xF4);
 }
 
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
@@ -80,14 +88,14 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x00: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
             //case 0xAA: printf(" STP ",0x0C); break; //Self-Test Passed
             case 0xEE: printf("ECHO",0x0C); break;    //Response to Echo command
-            case 0xFA: printf("ACK",0x0C); break;     //Command Acknowledged (ACK)
+            case 0xFA: /*printf("ACK",0x0C);*/ break;     //Command Acknowledged (ACK)
             case 0xFC: printf("FAIL",0x0C); break;    //Self-Test Failed
             case 0xFD: printf("FAIL",0x0C); break;    //Self-Test Failed
             case 0xFE: printf("RESEND",0x0C); break;  //Repeat Last command send
             case 0xFF: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
 
             //---KEYMAPPING---
-            case 0xE0: printf(" 0xE0 "); break; //Media Key Flag
+            case 0xE0: media_key = !media_key; /*printf(" [0xE0] ",0x0C);*/ break; //Media Key Flag
             case 0x01: break; //ESCAPE pressed
 
             case 0x02: if(Uppercase) handler->OnKeyDown('!'); else handler->OnKeyDown('1'); break;
@@ -104,7 +112,6 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x0D: if(Uppercase) handler->OnKeyDown('+'); else handler->OnKeyDown('='); break;
 
             case 0x0E: handler->OnKeyDown('\b'); break; //BACKSPACE pressed
-
             case 0x0F: printf("    "); break; //TAB pressed
 
             case 0x10: if(Uppercase) handler->OnKeyDown('Q'); else handler->OnKeyDown('q'); break;
@@ -119,7 +126,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x19: if(Uppercase) handler->OnKeyDown('P'); else handler->OnKeyDown('p'); break;
             case 0x1A: if(Uppercase) handler->OnKeyDown('{'); else handler->OnKeyDown('['); break;
             case 0x1B: if(Uppercase) handler->OnKeyDown('}'); else handler->OnKeyDown(']'); break;
-            case 0x1C: handler->OnKeyDown('\n'); break; //ENTER pressed
+            case 0x1C: key_toggle(); if(media_key) { if(NumLock) handler->OnKeyDown('\n'); } else { handler->OnKeyDown('\n'); } break; //ENTER pressed, 0xE0: Numpad: ENTER pressed
 
             case 0x1D: break; //LEFT CONTROL pressed
 
@@ -145,21 +152,21 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x32: if(Uppercase) handler->OnKeyDown('M'); else handler->OnKeyDown('m'); break;
             case 0x33: if(Uppercase) handler->OnKeyDown('<'); else handler->OnKeyDown(','); break;
             case 0x34: if(Uppercase) handler->OnKeyDown('>'); else handler->OnKeyDown('.'); break;
-            case 0x35: if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); break;
+            case 0x35: if(media_key) { if(NumLock) handler->OnKeyDown('/'); } else { if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); } break; // "/" pressed, 0xEO: Numpad: "/" pressed
 
-            case 0x37: break; //Numpad: * pressed
+            case 0x37: if(NumLock) handler->OnKeyDown('*'); break; //Numpad: * pressed
             case 0x38: break; //LEFT ALT pressed
 
             case 0x39: handler->OnKeyDown(' '); break; //SPACE pressed
 
             //SHIFT
-            case 0x2A: Uppercase = !Uppercase; break; //LEFT SHIFT pressed
-            case 0x36: Uppercase = !Uppercase; break; //RIGHT SHIFT pressed
-            case 0xAA: Uppercase = !Uppercase; break; //LEFT SHIFT released
-            case 0xB6: Uppercase = !Uppercase; break; //RIGHT SHIFT released
+            case 0x2A: key_toggle(); Uppercase = !Uppercase; break; //LEFT SHIFT pressed
+            case 0x36: key_toggle(); Uppercase = !Uppercase; break; //RIGHT SHIFT pressed
+            case 0xAA: key_toggle(); Uppercase = !Uppercase; break; //LEFT SHIFT released
+            case 0xB6: key_toggle(); Uppercase = !Uppercase; break; //RIGHT SHIFT released
             //END SHIFT
 
-            case 0x3A: Uppercase = !Uppercase; /*kbd_handle_led(0x02);*/ break; //CAPSLOCK pressed
+            case 0x3A: key_toggle(); Uppercase = !Uppercase; /*kbd_handle_led(0x02);*/ break; //CAPSLOCK pressed
 
             case 0x3B: break; //F1 pressed
             case 0x3C: break; //F2 pressed
@@ -174,22 +181,22 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x57: break; //F11 pressed
             case 0x58: break; //F12 pressed
 
-            case 0x45: break; //NumLock pressed
+            case 0x45: key_toggle(); NumLock = !NumLock; break; //NumLock pressed
             case 0x46: break; //ScrollLock pressed
 
-            case 0x47: break; //Numpad: 7 pressed
-            case 0x48: break; //Numpad: 8 pressed
-            case 0x49: break; //Numpad: 9 pressed
-            case 0x4A: break; //Numpad: - pressed
-            case 0x4B: break; //Numpad: 4 pressed
-            case 0x4C: break; //Numpad: 5 pressed
-            case 0x4D: break; //Numpad: 6 pressed
-            case 0x4E: break; //Numpad: + pressed
-            case 0x4F: break; //Numpad: 1 pressed
-            case 0x50: break; //Numpad: 2 pressed
-            case 0x51: break; //Numpad: 3 pressed
-            case 0x52: break; //Numpad: 0 pressed
-            case 0x53: break; //Numpad: . pressed
+            case 0x47: if(NumLock) handler->OnKeyDown('7'); break; //Numpad: 7 pressed
+            case 0x48: if(NumLock) handler->OnKeyDown('8'); break; //Numpad: 8 pressed
+            case 0x49: if(NumLock) handler->OnKeyDown('9'); break; //Numpad: 9 pressed
+            case 0x4A: if(NumLock) handler->OnKeyDown('-'); break; //Numpad: - pressed
+            case 0x4B: if(NumLock) handler->OnKeyDown('4'); break; //Numpad: 4 pressed
+            case 0x4C: if(NumLock) handler->OnKeyDown('5'); break; //Numpad: 5 pressed
+            case 0x4D: if(NumLock) handler->OnKeyDown('6'); break; //Numpad: 6 pressed
+            case 0x4E: if(NumLock) handler->OnKeyDown('+'); break; //Numpad: + pressed
+            case 0x4F: if(NumLock) handler->OnKeyDown('1'); break; //Numpad: 1 pressed
+            case 0x50: if(NumLock) handler->OnKeyDown('2'); break; //Numpad: 2 pressed
+            case 0x51: if(NumLock) handler->OnKeyDown('3'); break; //Numpad: 3 pressed
+            case 0x52: if(NumLock) handler->OnKeyDown('0'); break; //Numpad: 0 pressed
+            case 0x53: if(NumLock) handler->OnKeyDown('.'); break; //Numpad: . pressed
 
             case 0x5B: break; //Left Mod (Win) key pressed
             case 0xDB: break; //Left Mod (Win) key released
@@ -225,7 +232,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x99: break; //P released
             case 0x9A: break; //[ released
             case 0x9B: break; //] released
-            case 0x9C: break; //ENTER released
+            case 0x9C: if(media_key) { /*dohandlemediakey*/ } else { } break; //ENTER released, 0xE0: Numpad: ENTER released
             case 0x9D: break; //LEFT CONTROL released
             case 0x9E: break; //A released
             case 0x9F: break; //S released
