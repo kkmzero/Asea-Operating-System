@@ -88,14 +88,14 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x00: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
             //case 0xAA: printf(" STP ",0x0C); break; //Self-Test Passed
             case 0xEE: printf("ECHO",0x0C); break;    //Response to Echo command
-            case 0xFA: /*printf("ACK",0x0C);*/ break;     //Command Acknowledged (ACK)
+            case 0xFA: printf("ACK",0x0C); break;     //Command Acknowledged (ACK)
             case 0xFC: printf("FAIL",0x0C); break;    //Self-Test Failed
             case 0xFD: printf("FAIL",0x0C); break;    //Self-Test Failed
             case 0xFE: printf("RESEND",0x0C); break;  //Repeat Last command send
             case 0xFF: printf("KDError",0x0C); break; //Key Detection Error or internal buffer overrun
 
             //---KEYMAPPING---
-            case 0xE0: media_key = !media_key; /*printf(" [0xE0] ",0x0C);*/ break; //Media Key Flag
+            case 0xE0: media_key = !media_key; printf(" [0xE0] ",0x0B); break; //Media Key Flag
             case 0x01: break; //ESCAPE pressed
 
             case 0x02: if(Uppercase) handler->OnKeyDown('!'); else handler->OnKeyDown('1'); break;
@@ -133,7 +133,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x1E: if(Uppercase) handler->OnKeyDown('A'); else handler->OnKeyDown('a'); break;
             case 0x1F: if(Uppercase) handler->OnKeyDown('S'); else handler->OnKeyDown('s'); break;
             case 0x20: if(Uppercase) handler->OnKeyDown('D'); else handler->OnKeyDown('d'); break;
-            case 0x21: if(Uppercase) handler->OnKeyDown('F'); else handler->OnKeyDown('f'); break;
+            case 0x21: if(media_key) { /*dohandlemediakey*/ } else { if(Uppercase) handler->OnKeyDown('F'); else handler->OnKeyDown('f'); } break; //0xE0: Calculator pressed
             case 0x22: if(Uppercase) handler->OnKeyDown('G'); else handler->OnKeyDown('g'); break;
             case 0x23: if(Uppercase) handler->OnKeyDown('H'); else handler->OnKeyDown('h'); break;
             case 0x24: if(Uppercase) handler->OnKeyDown('J'); else handler->OnKeyDown('j'); break;
@@ -149,7 +149,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x2F: if(Uppercase) handler->OnKeyDown('V'); else handler->OnKeyDown('v'); break;
             case 0x30: if(Uppercase) handler->OnKeyDown('B'); else handler->OnKeyDown('b'); break;
             case 0x31: if(Uppercase) handler->OnKeyDown('N'); else handler->OnKeyDown('n'); break;
-            case 0x32: if(Uppercase) handler->OnKeyDown('M'); else handler->OnKeyDown('m'); break;
+            case 0x32: if(media_key) { /*dohandlemediakey*/ } else { if(Uppercase) handler->OnKeyDown('M'); else handler->OnKeyDown('m'); } break; //0xE0: WWW home pressed
             case 0x33: if(Uppercase) handler->OnKeyDown('<'); else handler->OnKeyDown(','); break;
             case 0x34: if(Uppercase) handler->OnKeyDown('>'); else handler->OnKeyDown('.'); break;
             case 0x35: if(media_key) { if(NumLock) handler->OnKeyDown('/'); } else { if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); } break; // "/" pressed, 0xEO: Numpad: "/" pressed
@@ -160,7 +160,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x39: handler->OnKeyDown(' '); break; //SPACE pressed
 
             //SHIFT
-            case 0x2A: key_toggle(); Uppercase = !Uppercase; break; //LEFT SHIFT pressed
+            case 0x2A: if(media_key) { /*dohandlemediakey*/ } else { key_toggle(); Uppercase = !Uppercase; break; } //LEFT SHIFT pressed, 0xE0 Printscreen pressed
             case 0x36: key_toggle(); Uppercase = !Uppercase; break; //RIGHT SHIFT pressed
             case 0xAA: key_toggle(); Uppercase = !Uppercase; break; //LEFT SHIFT released
             case 0xB6: key_toggle(); Uppercase = !Uppercase; break; //RIGHT SHIFT released
@@ -184,19 +184,19 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x45: key_toggle(); NumLock = !NumLock; break; //NumLock pressed
             case 0x46: break; //ScrollLock pressed
 
-            case 0x47: if(NumLock) handler->OnKeyDown('7'); break; //Numpad: 7 pressed
-            case 0x48: if(NumLock) handler->OnKeyDown('8'); break; //Numpad: 8 pressed
-            case 0x49: if(NumLock) handler->OnKeyDown('9'); break; //Numpad: 9 pressed
+            case 0x47: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('7'); } break; //Numpad: 7 pressed, 0xE0: Home pressed
+            case 0x48: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('8'); } break; //Numpad: 8 pressed, 0xE0: ArrowUp pressed
+            case 0x49: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('9'); } break; //Numpad: 9 pressed, 0xE0: PageUp pressed
             case 0x4A: if(NumLock) handler->OnKeyDown('-'); break; //Numpad: - pressed
-            case 0x4B: if(NumLock) handler->OnKeyDown('4'); break; //Numpad: 4 pressed
+            case 0x4B: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('4'); } break; //Numpad: 4 pressed, 0xE0: ArrowLeft pressed
             case 0x4C: if(NumLock) handler->OnKeyDown('5'); break; //Numpad: 5 pressed
-            case 0x4D: if(NumLock) handler->OnKeyDown('6'); break; //Numpad: 6 pressed
+            case 0x4D: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('6'); } break; //Numpad: 6 pressed, 0xE0: ArrowRight pressed
             case 0x4E: if(NumLock) handler->OnKeyDown('+'); break; //Numpad: + pressed
-            case 0x4F: if(NumLock) handler->OnKeyDown('1'); break; //Numpad: 1 pressed
-            case 0x50: if(NumLock) handler->OnKeyDown('2'); break; //Numpad: 2 pressed
-            case 0x51: if(NumLock) handler->OnKeyDown('3'); break; //Numpad: 3 pressed
+            case 0x4F: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('1'); } break; //Numpad: 1 pressed, 0xE0: End pressed
+            case 0x50: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('2'); } break; //Numpad: 2 pressed, 0xE0: ArrowDown pressed
+            case 0x51: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('3'); } break; //Numpad: 3 pressed, 0xE0: PageDown pressed
             case 0x52: if(NumLock) handler->OnKeyDown('0'); break; //Numpad: 0 pressed
-            case 0x53: if(NumLock) handler->OnKeyDown('.'); break; //Numpad: . pressed
+            case 0x53: if(media_key) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('.'); } break; //Numpad: . pressed, 0xE0: Delete pressed
 
             case 0x5B: break; //Left Mod (Win) key pressed
             case 0xDB: break; //Left Mod (Win) key released
@@ -285,10 +285,14 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0xD0: break; //Numpad: 2 released
             case 0xD1: break; //Numpad: 3 released
             case 0xD2: break; //Numpad: 0 released
-            case 0xD3: break; //Numpad: . released
+            case 0xD3: /*dohandlemediakey*/ break; //Numpad: . released, 0xE0: Delete released
             case 0xD6: break; //AltBackslash released
             case 0xD7: break; //F11 released
             case 0xD8: break; //F12 released
+            
+            case 0x6C: if(media_key) { /*dohandlemediakey*/ } break; //0xE0: mail pressed
+            case 0xE1: break; //pause pressed
+            case 0xEC: if(media_key) { /*dohandlemediakey*/ } break; //0xE0: mail released
 
             //TODO: CIV
             case 0x56: if(Uppercase) handler->OnKeyDown('|'); else handler->OnKeyDown('\\'); break;
