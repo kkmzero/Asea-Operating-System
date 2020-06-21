@@ -1,6 +1,6 @@
 /*
  * This file is part of Asea OS.
- * Copyright (C) 2018 Ivan Kmeťo
+ * Copyright (C) 2018 - 2020 Ivan Kmeťo
  *
  * Asea OS is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -26,32 +26,32 @@
 
 namespace asea
 {
-	namespace drivers
-	{
-		class KeyboardEventHandler
-		{
-		public:
-			KeyboardEventHandler();
+    namespace drivers
+    {
+        class KeyboardEventHandler
+        {
+        public:
+            KeyboardEventHandler();
 
-			virtual void OnKeyDown(char);
-			virtual void OnKeyUp(char);
-		};
+            virtual void OnKeyDown(char);
+            virtual void OnKeyUp(char);
+        };
 
-		class KeyboardDriver : public asea::hwcom::InterruptHandler, public Driver
-		{
-			asea::hwcom::Port8Bit dataport;
-			asea::hwcom::Port8Bit commandport;
+        class KeyboardDriver : public asea::hwcom::InterruptHandler, public Driver
+        {
+            asea::hwcom::Port8Bit dataport;
+            asea::hwcom::Port8Bit commandport;
 
-			KeyboardEventHandler* handler;
+            KeyboardEventHandler* handler;
 
-		public:
-			KeyboardDriver(asea::hwcom::InterruptManager * manager, KeyboardEventHandler* handler);
-			~KeyboardDriver();
-			virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
-			virtual void Activate();
-		};
+        public:
+            KeyboardDriver(asea::hwcom::InterruptManager * manager, KeyboardEventHandler* handler);
+            ~KeyboardDriver();
+            virtual asea::common::uint32_t HandleInterrupt(asea::common::uint32_t esp);
+            virtual void Activate();
+        };
 
-	}
+    }
 }
 
 #endif
