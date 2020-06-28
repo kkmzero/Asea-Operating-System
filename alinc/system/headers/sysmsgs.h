@@ -47,13 +47,13 @@ namespace asea
             static void AS_StatusMsg(STATUS_MSG_ID statusmsg_id, char* description) {
                 printf("[");
                 switch(statusmsg_id) {
-                    case STATUSMSG_NONE: printf("*", 0x07); break;
-                    case STATUSMSG_OK: printf("OK", 0x0A); break;
-                    case STATUSMSG_FAILED: printf("FAILED", 0x0C); break;
-                    case STATUSMSG_ABORT: printf("ABORT", 0x0E); break;
-                    case STATUSMSG_WARNING: printf("WARNING", 0x0D); break;
-                    case STATUSMSG_ERROR: printf("ERROR", 0x0C); break;
-                    case STATUSMSG_INIT: printf("INIT", 0x07); break;
+                    case STATUSMSG_NONE: printf("*", COLOR_LTGRAY); break;
+                    case STATUSMSG_OK: printf("OK", COLOR_LTGREEN); break;
+                    case STATUSMSG_FAILED: printf("FAILED", COLOR_LTRED); break;
+                    case STATUSMSG_ABORT: printf("ABORT", COLOR_LTBROWN); break;
+                    case STATUSMSG_WARNING: printf("WARNING", COLOR_LTMAGENTA); break;
+                    case STATUSMSG_ERROR: printf("ERROR", COLOR_LTRED); break;
+                    case STATUSMSG_INIT: printf("INIT", COLOR_LTGRAY); break;
                 }
                 printf("] ");
                 printf(description);
