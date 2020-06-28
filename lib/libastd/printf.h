@@ -20,23 +20,24 @@
 #define __ASEA__LIB__ASTD__PRINTF_H
 
 #include <common/types.h>
+#include <system/lists/tmodecolor.list>
 
 void _sysprintf(char*, asea::common::uint8_t, asea::common::uint8_t);
 
 
-//
+//Text Mode Print
 static void printf(char* str)
 {
-    _sysprintf(str, 0x00, 0x0F);
+    _sysprintf(str, 0x00, COLOR_WHITE);
 }
 
-//
+//Text Mode Print, Set Text Color
 static void printf(char* str, asea::common::uint8_t forecolor)
 {
     _sysprintf(str, 0x00, forecolor);
 }
 
-//
+//Text Mode Print, Set Text and Background Color
 static void printf(char* str, asea::common::uint8_t bgcolor, asea::common::uint8_t forecolor)
 {
     _sysprintf(str, bgcolor, forecolor);
