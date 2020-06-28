@@ -16,6 +16,9 @@
  * Asea OS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef __ASEA__SYSTEM__LISTS__IDSPCI_LIST
+#define __ASEA__SYSTEM__LISTS__IDSPCI_LIST
+
 //Vendor IDs
 #define PCI_ID_VENDOR_AMD                 0x1022    //Advanced Micro Devices (AMD)
 #define PCI_ID_VENDOR_APPLE               0x106B    //Apple Inc.
@@ -167,3 +170,5 @@
 #define PCI_ID_SUBCLASS_SPMAN             0x20      //Signal Processing Management
 
 #define PCI_ID_SUBCLASS_OTHER             0x80      //Other
+
+#endif
