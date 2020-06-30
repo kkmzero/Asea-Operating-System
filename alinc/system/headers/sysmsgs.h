@@ -57,6 +57,7 @@ namespace asea
                 }
                 printf("] ");
                 printf(description);
+                printf("\n");
             }
 
             static void AS_StatusMsgInf(STATUS_MSG_INF_ID statusmsginf_id) {
