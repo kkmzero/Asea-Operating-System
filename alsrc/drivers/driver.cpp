@@ -49,5 +49,5 @@ void DriverManager::AddDriver(Driver* drv) {
 void DriverManager::ActivateAll() {
     for(int i = 0; i < numDrivers; i++)
         drivers[i]->Activate();
-    AS_StatusMsg(STATUSMSG_OK, "Activate Drivers\n");
+    AS_StatusMsg(STATUSMSG_OK, "Activate Drivers");
 }
