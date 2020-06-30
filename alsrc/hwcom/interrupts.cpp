@@ -110,7 +110,7 @@ void InterruptManager::Activate() {
         ActiveInterruptManager->Deactivate();
         ActiveInterruptManager = this;
     asm("sti");
-    AS_StatusMsg(STATUSMSG_OK, "Activate Hardware Interrupts\n");
+    AS_StatusMsg(STATUSMSG_OK, "Activate Hardware Interrupts");
 }
 
 void InterruptManager::Deactivate() {
