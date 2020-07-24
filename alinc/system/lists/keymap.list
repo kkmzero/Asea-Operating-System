@@ -19,6 +19,7 @@
 #ifndef __ASEA__SYSTEM__LISTS__KEYMAP_LIST
 #define __ASEA__SYSTEM__LISTS__KEYMAP_LIST
 
+
 //PS/2 Keyboard KeyMap (Scan Code Set 1)
 #define KP_ESC          0x01
 #define KP_1            0x02
@@ -72,9 +73,9 @@
 #define KP_M            0x32 //0xE0: WWW home pressed
 #define KP_COMMA        0x33
 #define KP_DOT          0x34
-//0x35
+#define KP_SLASH        0x35 //0xE0: Numpad: "/" pressed
 #define KP_RSHIFT       0x36
-#define KP_NUM_MUL      0x37 //Numpad: * pressed
+#define KP_NUM_MUL      0x37
 #define KP_LALT         0x38 //0xE0: Right Alt or AltGr pressed
 #define KP_SPACE        0x39
 #define KP_CAPSLOCK     0x3A
@@ -125,7 +126,7 @@
 #define KR_EQUAL        0x8D
 #define KR_BACKSPACE    0x8E
 #define KR_TAB          0x8F
-#define KR_Q            0x90
+#define KR_Q            0x90 //0xE0: (multimedia) previous track released
 #define KR_W            0x91
 #define KR_E            0x92
 #define KR_R            0x93
@@ -134,18 +135,18 @@
 #define KR_U            0x96
 #define KR_I            0x97
 #define KR_O            0x98
-#define KR_P            0x99
+#define KR_P            0x99 //0xE0: (multimedia) next track released
 //0x9A
 //0x9B
-#define KR_ENTER        0x9C //Numpad: ENTER released
-#define KR_LCTRL        0x9D
+#define KR_ENTER        0x9C //0xE0: Numpad ENTER released
+#define KR_LCTRL        0x9D //0xE0: Right Control released
 #define KR_A            0x9E
 #define KR_S            0x9F
-#define KR_D            0xA0
-#define KR_F            0xA1
-#define KR_G            0xA2
+#define KR_D            0xA0 //0xE0: (multimedia) mute released
+#define KR_F            0xA1 //0xE0: (multimedia) calculator released
+#define KR_G            0xA2 //0xE0: (multimedia) play released
 #define KR_H            0xA3
-#define KR_J            0xA4
+#define KR_J            0xA4 //0xE0: (multimedia) stop released
 #define KR_K            0xA5
 #define KR_L            0xA6
 //0xA7
@@ -155,17 +156,17 @@
 //0xAB
 #define KR_Z            0xAC
 #define KR_X            0xAD
-#define KR_C            0xAE
+#define KR_C            0xAE //0xE0: (multimedia) volume down released
 #define KR_V            0xAF
-#define KR_B            0xB0
+#define KR_B            0xB0 //0xE0: (multimedia) volume up released
 #define KR_N            0xB1
-#define KR_M            0xB2
+#define KR_M            0xB2 //0xE0: (multimedia) WWW home released
 #define KR_COMMA        0xB3
 #define KR_DOT          0xB4
-//0xB5
+#define KR_SLASH        0xB5 //0xE0: Numpad: "/" released
 #define KR_RSHIFT       0xB6
-#define KR_NUM_MUL      0xB7 //Numpad: * released
-#define KR_LALT         0xB8
+#define KR_NUM_MUL      0xB7
+#define KR_LALT         0xB8 //0xE0: Right Alt or AltGr released
 #define KR_SPACE        0xB9
 #define KR_CAPSLOCK     0xBA
 #define KR_F1           0xBB
@@ -180,21 +181,22 @@
 #define KR_F10          0xC4
 #define KR_NUMLOCK      0xC5
 #define KR_SCRLLOCK     0xC6
-#define KR_NUM_7        0xC7
-#define KR_NUM_8        0xC8
-#define KR_NUM_9        0xC9
+#define KR_NUM_7        0xC7 //0xE0: home released
+#define KR_NUM_8        0xC8 //0xE0: cursor up released
+#define KR_NUM_9        0xC9 //0xE0: page up released
 #define KR_NUM_MINUS    0xCA
-#define KR_NUM_4        0xCB
+#define KR_NUM_4        0xCB //0xE0: cursor left released
 #define KR_NUM_5        0xCC
-#define KR_NUM_6        0xCD
+#define KR_NUM_6        0xCD //0xE0: cursor right released
 #define KR_NUM_PLUS     0xCE
-#define KR_NUM_1        0xCF
-#define KR_NUM_2        0xD0
-#define KR_NUM_3        0xD1
-#define KR_NUM_0        0xD2
+#define KR_NUM_1        0xCF //0xE0: end released
+#define KR_NUM_2        0xD0 //0xE0: cursor down released
+#define KR_NUM_3        0xD1 //0xE0: page down released
+#define KR_NUM_0        0xD2 //0xE0: insert released
 #define KR_NUM_DOT      0xD3 //0xE0: Delete released
 //0xD6
 #define KR_F11          0xD7
 #define KR_F12          0xD8
+
 
 #endif
