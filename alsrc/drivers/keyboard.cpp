@@ -137,7 +137,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0x1B: if(Uppercase) handler->OnKeyDown('}'); else handler->OnKeyDown(']'); break;
             case KP_ENTER: handler->OnKeyDown('\n'); break; //0xE0: Numpad: ENTER pressed
 
-            case KP_LCTRL: if(MediaKey) { /*rctrl*/ } else { /*lctrl*/ } break; //0xE0: Right Control Pressed
+            case KP_LCTRL: if(MediaKey) { /*rctrl*/ } else { /*lctrl*/ } break; //0xE0: Right Control pressed
 
             case KP_A: if(Uppercase) handler->OnKeyDown('A'); else handler->OnKeyDown('a'); break;
             case KP_S: if(Uppercase) handler->OnKeyDown('S'); else handler->OnKeyDown('s'); break;
@@ -161,9 +161,9 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case KP_M: if(MediaKey) { /*dohandlemediakey*/ } else { if(Uppercase) handler->OnKeyDown('M'); else handler->OnKeyDown('m'); } break; //0xE0: WWW home pressed
             case KP_COMMA: if(Uppercase) handler->OnKeyDown('<'); else handler->OnKeyDown(','); break;
             case KP_DOT: if(Uppercase) handler->OnKeyDown('>'); else handler->OnKeyDown('.'); break;
-            case 0x35: if(MediaKey) { if(NumLock) handler->OnKeyDown('/'); } else { if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); } break; // "/" pressed, 0xEO: Numpad: "/" pressed
+            case KP_SLASH: if(MediaKey) { if(NumLock) handler->OnKeyDown('/'); } else { if(Uppercase) handler->OnKeyDown('?'); else handler->OnKeyDown('/'); } break; //0xEO: Numpad: "/" pressed
 
-            case KP_NUM_MUL: if(NumLock) handler->OnKeyDown('*'); break; //Numpad: * pressed
+            case KP_NUM_MUL: if(NumLock) handler->OnKeyDown('*'); break;
             case KP_LALT: if(MediaKey) { /*ralt*/ } else { /*lalt*/ } break; //0xE0: Right Alt or AltGr pressed
             case KP_SPACE: handler->OnKeyDown(' '); break;
 
@@ -207,11 +207,23 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case KP_NUM_DOT: if(MediaKey) { /*dohandlemediakey*/ } else { if(NumLock) handler->OnKeyDown('.'); } break; //0xE0: Delete pressed
 
             case 0x5B: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Left Mod (Win) key pressed
-            case 0xDB: break; //Left Mod (Win) key released
+            case 0xDB: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Left Mod (Win) key released
             case 0x5C: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Right Mod (Win) key pressed
-            case 0xDC: break; //Right Mod (Win) key released
+            case 0xDC: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Right Mod (Win) key released
             case 0x5D: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: "Apps" key pressed
-            case 0xDD: break; //"Apps" key released
+            case 0xDD: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: "Apps" key released
+            case 0xDE: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) power released
+            case 0xDF: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) sleep released
+            case 0xE3: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) wake released
+            case 0xE5: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW search released
+            case 0xE6: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW favorites released
+            case 0xE7: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW refresh released
+            case 0xE8: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW stop released
+            case 0xE9: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW forward released
+            case 0xEA: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW back released
+            case 0xEB: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) my computer released
+            case 0xEC: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) email released
+            case 0xED: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) media select released
             case 0x5E: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) power pressed
             case 0x5F: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) sleep pressed
             case 0x63: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (ACPI) wake pressed
@@ -240,7 +252,7 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case KR_EQUAL: break;
             case KR_BACKSPACE: break;
             case KR_TAB: break;
-            case KR_Q: break;
+            case KR_Q: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) previous track released
             case KR_W: break;
             case KR_E: break;
             case KR_R: break;
@@ -249,18 +261,18 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case KR_U: break;
             case KR_I: break;
             case KR_O: break;
-            case KR_P: break;
+            case KR_P: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) next track released
             case 0x9A: break; //[ released
             case 0x9B: break; //] released
-            case KR_ENTER: break; //0xE0: Numpad: ENTER released
-            case KR_LCTRL: break;
+            case KR_ENTER: break; //0xE0: Numpad ENTER released
+            case KR_LCTRL: if(MediaKey) { /*rctrl*/ } else { /*lctrl*/ } break; //0xE0: Right Control released
             case KR_A: break;
             case KR_S: break;
-            case KR_D: break;
-            case KR_F: break;
-            case KR_G: break;
+            case KR_D: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) mute released
+            case KR_F: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) calculator released
+            case KR_G: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) play released
             case KR_H: break;
-            case KR_J: break;
+            case KR_J: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) stop released
             case KR_K: break;
             case KR_L: break;
             case 0xA7: break; //; released
@@ -269,16 +281,16 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case 0xAB: break; //\ released
             case KR_Z: break;
             case KR_X: break;
-            case KR_C: break;
+            case KR_C: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) volume down released
             case KR_V: break;
-            case KR_B: break;
+            case KR_B: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) volume up released
             case KR_N: break;
-            case KR_M: break;
+            case KR_M: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: (multimedia) WWW home released
             case KR_COMMA: break;
             case KR_DOT: break;
-            case 0xB5: break; //(/) released
-            case KR_NUM_MUL: break; //Numpad: * released
-            case KR_LALT: break;
+            case KR_SLASH: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Numpad: "/" released
+            case KR_NUM_MUL: break;
+            case KR_LALT: if(MediaKey) { /*ralt*/ } else { /*lalt*/ } break; //0xE0: Right Alt or AltGr released
             case KR_SPACE: break;
             case KR_CAPSLOCK: break;
             case KR_F1: break;
@@ -293,25 +305,24 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
             case KR_F10: break;
             case KR_NUMLOCK: break;
             case KR_SCRLLOCK: break;
-            case KR_NUM_7: break;
-            case KR_NUM_8: break;
-            case KR_NUM_9: break;
+            case KR_NUM_7: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: home released
+            case KR_NUM_8: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: cursor up released
+            case KR_NUM_9: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: page up released
             case KR_NUM_MINUS: break;
-            case KR_NUM_4: break;
+            case KR_NUM_4: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: cursor left released
             case KR_NUM_5: break;
-            case KR_NUM_6: break;
+            case KR_NUM_6: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: cursor right released
             case KR_NUM_PLUS: break;
-            case KR_NUM_1: break;
-            case KR_NUM_2: break;
-            case KR_NUM_3: break;
-            case KR_NUM_0: break;
+            case KR_NUM_1: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: end released
+            case KR_NUM_2: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: cursor down released
+            case KR_NUM_3: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: page down released
+            case KR_NUM_0: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: insert released
             case KR_NUM_DOT: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: Delete released
             case 0xD6: break; //AltBackslash released
             case KR_F11: break;
             case KR_F12: break;
 
             case 0xE1: break; //pause pressed
-            case 0xEC: if(MediaKey) { /*dohandlemediakey*/ } break; //0xE0: mail released
 
             //TODO: CIV
             case 0x56: if(Uppercase) handler->OnKeyDown('|'); else handler->OnKeyDown('\\'); break;
