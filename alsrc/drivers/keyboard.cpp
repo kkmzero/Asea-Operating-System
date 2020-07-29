@@ -73,11 +73,11 @@ void kbd_handle_led(uint8_t status) {
     outb(0x60, status);
 }
 
-void key_toggle(uint8_t key_release) { //[!] TESTING
+void key_toggle(uint8_t key_release) {
     while(!(inb(0x60) == key_release));
 }
 
-void shift_force_toggle() { //[!] TESTING
+void shift_force_toggle() { //WARNING: Works in VirtualBox, causes issues on real HW
     outb(0x60, 0xF5);
     kbd_ack();
     outb(0x60, 0xF4);
@@ -92,14 +92,14 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp) {
         switch(key)
         {
             //Response Bytes (For Debugging)
-            case 0x00: /*printf(" [0x00] KDError ",COLOR_DKGRAY);*/ break; //Key Detection Error or internal buffer overrun
-            //case 0xAA: printf(" [0xAA] STP ",COLOR_DKGRAY); break; //Self test passed (sent after "0xFF (reset)" command or keyboard power up), WARNING: Duplicate Case Value
-            case 0xEE: /*printf(" [0xEE] ECHO ",COLOR_DKGRAY);*/ break;    //Response to Echo command
-            case 0xFA: /*printf(" [0xFA] ACK ",COLOR_DKGRAY);*/ break;     //Command Acknowledged (ACK)
-            case 0xFC: /*printf(" [0xFC] FAIL ",COLOR_DKGRAY);*/ break;    //Self test failed (sent after "0xFF (reset)" command or keyboard power up)
-            case 0xFD: /*printf(" [0xFD] FAIL ",COLOR_DKGRAY);*/ break;    //Self test failed (sent after "0xFF (reset)" command or keyboard power up)
-            case 0xFE: /*printf(" [0xFE] RESEND ",COLOR_DKGRAY);*/ break;  //Repeat Last command send
-            case 0xFF: /*printf(" [0xFF] KDError ",COLOR_DKGRAY);*/ break; //Key Detection Error or internal buffer overrun
+            case 0x00: /*printf(" [0x00] KDError ",COLOR_DKGRAY);*/ break;    //Key Detection Error or internal buffer overrun
+            //case 0xAA: printf(" [0xAA] STP ",COLOR_DKGRAY); break;          //Self test passed (sent after "0xFF (reset)" command or keyboard power up), WARNING: Duplicate Case Value
+            case 0xEE: /*printf(" [0xEE] ECHO ",COLOR_DKGRAY);*/ break;       //Response to Echo command
+            case 0xFA: /*printf(" [0xFA] ACK ",COLOR_DKGRAY);*/ break;        //Command Acknowledged (ACK)
+            case 0xFC: /*printf(" [0xFC] FAIL ",COLOR_DKGRAY);*/ break;       //Self test failed (sent after "0xFF (reset)" command or keyboard power up)
+            case 0xFD: /*printf(" [0xFD] FAIL ",COLOR_DKGRAY);*/ break;       //Self test failed (sent after "0xFF (reset)" command or keyboard power up)
+            case 0xFE: /*printf(" [0xFE] RESEND ",COLOR_DKGRAY);*/ break;     //Repeat Last command send
+            case 0xFF: /*printf(" [0xFF] KDError ",COLOR_DKGRAY);*/ break;    //Key Detection Error or internal buffer overrun
 
             //Media Key Flag/Escape Sequence
             case 0xE0: MediaKey = !MediaKey; /*printf(" [0xE0] ",COLOR_DKGRAY);*/ break;
