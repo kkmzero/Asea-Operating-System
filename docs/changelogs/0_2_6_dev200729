@@ -1,0 +1,84 @@
+[v0.2.6 - dev200729]
+ - vga.cpp: VGA flag checks if correct mode is set
+ - syscalls.h: for kernel related calls is used form _funcname
+ - sysmsgs.h: STATUSMSG_INIT
+ - keyboard.cpp: key_toggle(); function
+ - keyboard.cpp: Mapped NumLock and related numeric keys
+ - keyboard.cpp: Mapped remaining 0xE0 media keys
+ - keyboard.cpp: keymap.list
+ - Makefile: checkdeps - added GNU Make
+ - tmodecolor.list: libastd/printf.h, sysmsgs.h
+
+[v0.2.5 - dev200612]
+ - pci.cpp, idspci.list: Added PCI_ID_VENDOR_REALTEK (0x10EC), PCI_ID_VENDOR_APPLE (0x106B), PCI_ID_VENDOR_REDHAT_VIRTIO (0x1AF4)
+ - kernel.cpp: added ifdef VGA_ENABLED
+ - vga.cpp: defined g_640x480x16[]
+ - Makefile: fixed issue with checking/installing gcc instead of g++
+ - Makefile + Handbook -> Updated dependencies: G++ 8.3.0, GNU Binutils 2.31.1, libc6-dev-i386 2.28-10, GRUB Legacy 0.97-75, grub-pc-bin 2.02+dfsg1-20, xorriso 1.5.0
+ - driver.cpp, interrupts.cpp, kernel.cpp: changed way of displaying sysmsgs, initial work for better error handling
+ - keyboard.cpp: kbd_ack, kbd_handle_led (TODO), mapped 0xD6, mapping of response bytes for testing purposes
+
+[v0.2.4 - dev200317]
+ - Handbook added to repository in docs
+ - pci.cpp: re-defined codes in idspci.list
+ - pci.cpp: added sublasses for CPU -> Pentium Pro, Other
+ - pci.cpp: added subclass Other for Serial Bus Controller
+ - pci.cpp: syntax correction
+ - kernel.cpp: issues with text color in _sysprintf are fixed
+ - sysmsgs.h: support for colored text output added
+
+[v0.2.3 - dev190726]
+ - printf -> _sysprintf (kernel.cpp)
+ - printf function with color support added to <astd>
+ - New strcmp function <astd>
+ - Rework of system messages (System/*, Makefile, kernel.cpp, asea.h)
+
+[v0.2.2 - dev190713]
+ - NULL definition rework (types.h)
+ - core.h -> syscalls.h
+ - New <math> library
+ - New <astd> library replacing old asl
+ - sleep function was moved to syscalls.h
+ - Cursor functions moved to separate file (kernel.cpp, cursor.h)
+ - Flag used -std=c++11 (Makefile)
+ - checkpreqs -> checkdeps; installpreqs -> installdeps (Makefile)
+
+[v0.2.1 - dev190522]
+- make asea.iso -> make iso (Makefile)
+- Makefile now creates ISO image with more accurate filename (Makefile)
+- Updated AS_StatusMsg (sysmsgs.cpp)
+- asyslib.h renamed to asl.h and moved to path "alinc/System/lib" (asl.h, core.h, keyboard.cpp, pci.cpp, interrupts.cpp, Makefile, kernel.cpp)
+- Rework of asl (asl.h, corefunc.h, io.h, asl.cpp)
+
+[v0.2.0 - dev190305]
+- Initial VGA support implementation (vga.h, vga.cpp, Makefile)
+- Implementation of reboot and kernelPanic functions (core.h)
+- Initial support for dynamic memory management (memmgr.h, memmgr.cpp, Makefile, kernel.cpp)
+
+[v0.1.16 - dev181130]
+- Simplified definition of asl::abs (asyslib.cpp)
+- Implementation of factorial function asl::fact (asyslib.h, asyslib.cpp)
+- Listed PCI Vendor/Device IDs (pci.cpp)
+- - - - > [0x80EE] InnoTek Systemberatung GmbH
+- - - - - - - - > 0xBEEF - VirtualBox Graphics Adapter
+- - - - - - - - > 0xCAFE - VirtualBox Guest Service
+
+[v0.1.15 - dev181118]
+- Rework of system info messages and status messages (sysnfo.h, sysnfo.cpp, sysmsgs.h, sysmsgs.cpp, kernel.cpp)
+- NULL defined (types.h)
+- itoa function added to asl (asyslib.h, asyslib.cpp)
+- math::abs; math::pow added to asl (asyslib.h, ayslib.cpp)
+- io::outb; io::inb added to asl (asyslib.h, asyslib.cpp)
+- Implementation of cursor (kernel.cpp)
+
+[v0.1.14 - dev181106]
+- Rework of Asea System Library [asl] (asyslib.h, ayslib.cpp, Makefile)
+- Moved printfHex to Asea System Library (kernel.cpp, interrupts.cpp, pci.cpp, keyboard.cpp, asyslib.cpp, asyslib.h)
+- Properly mapped Right/Left Mod (Win) Keys + "Apps" Key (keyboard.cpp)
+- Mapped PrintScreen Key; however with unsolved problems (keyboard.cpp)
+
+[v0.1.13 - dev181103]
+- Small changes related to checkpreqs and installpreqs (Makefile)
+- Fixed issue with SHIFT and CAPSLOCK keys not working reliably (keyboard.cpp)
+- Implemented \b Escape sequence in printf (kernel.cpp)
+- Backspace key is now working (keyboard.cpp)
