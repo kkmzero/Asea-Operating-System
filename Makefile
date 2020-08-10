@@ -49,6 +49,7 @@ iso: aseakk.bin
 	mkdir iso/boot
 	mkdir iso/boot/grub
 	cp $< iso/boot
+	cp LICENSE iso
 	echo 'set timeout=10' >> iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo '' >> iso/boot/grub/grub.cfg
