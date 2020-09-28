@@ -40,7 +40,7 @@ namespace asea
                         break;
 
                     case SYSINFOMSG_COPYRIGHTVR:
-                        printf("Copyright (c) 2018 - 2020, Asea OS. All Rights Reserved.\n");
+                        printf("Copyright (c) 2018 - 2020 Asea OS. All Rights Reserved.\n");
                         printf("AL " ASD_AL_VERSION " " ASD_AL_BUILDVR "\n\n");
                         break;
 
