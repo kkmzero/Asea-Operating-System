@@ -15,10 +15,12 @@
 # Asea OS.  If not, see <http://www.gnu.org/licenses/>.
 
 
-GCCPARAMS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
-ASPARAMS = --32
-LDPARAMS = -melf_i386
-VINPARAM = 0.12-dev200729
+GXX = /usr/bin/g++
+GXXFLAGS = -m32 -std=c++11 -Ialinc -Ilib -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
+ASFLAGS = --32
+LDFLAGS = -melf_i386
+KERNEL = al
+VINAME = 0.13-testing200729
 
 objects = obj/loader.o \
 	  obj/gdt.o \
@@ -35,16 +37,16 @@ objects = obj/loader.o \
 
 obj/%.o: alsrc/%.cpp
 	mkdir -p $(@D)
-	g++ $(GCCPARAMS) -o $@ -c $<
+	$(GXX) $(GXXFLAGS) -o $@ -c $<
 
 obj/%.o: alsrc/%.s
 	mkdir -p $(@D)
-	as $(ASPARAMS) -o $@ $<
+	as $(ASFLAGS) -o $@ $<
 
-aseakk.bin: linker.ld $(objects)
-	ld $(LDPARAMS) -T $< -o $@ $(objects)
+asea.al.bin: linker.ld $(objects)
+	ld $(LDFLAGS) -T $< -o $@ $(objects)
 
-iso: aseakk.bin
+iso: asea.al.bin
 	mkdir iso
 	mkdir iso/boot
 	mkdir iso/boot/grub
@@ -53,16 +55,16 @@ iso: aseakk.bin
 	echo 'set timeout=10' >> iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo '' >> iso/boot/grub/grub.cfg
-	echo 'menuentry "Asea OS" {' >> iso/boot/grub/grub.cfg
-	echo '	multiboot /boot/aseakk.bin' >> iso/boot/grub/grub.cfg
+	echo 'menuentry "Asea AL" {' >> iso/boot/grub/grub.cfg
+	echo '	multiboot /boot/asea.al.bin' >> iso/boot/grub/grub.cfg
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=asea-$(VINPARAM).iso iso
+	grub-mkrescue --output=asea-$(KERNEL)-$(VINAME).iso iso
 	rm -rf iso
 
 .PHONY: clean checkdeps installdeps install
 clean:
-	rm -rf obj aseakk.bin asea-$(VINPARAM).iso
+	rm -rf obj asea.$(KERNEL).bin asea-$(KERNEL)-$(VINAME).iso
 
 checkdeps:
 	@echo "\033[1;33m[1/8] GNU Make\033[0m"
@@ -108,6 +110,3 @@ installdeps:
 	@sudo apt-get install grub-pc-bin
 	@echo "\033[1;33m[6/6] Check & Install: xorriso\033[0m"
 	@sudo apt-get install xorriso
-
-install: aseakk.bin
-	sudo cp $< /boot/aseakk.bin
